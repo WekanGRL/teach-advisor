@@ -6,6 +6,7 @@ use App\Repository\ProfessorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfessorRepository::class)]
 class Professor
@@ -16,12 +17,16 @@ class Professor
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    #[Assert\NotBlank]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $prenom = null;
+    #[Assert\NotBlank]
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'professor', targetEntity: Review::class, orphanRemoval: true)]
@@ -41,14 +46,14 @@ class Professor
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function getPrenom(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->prenom;
+        return $this->firstName;
     }
 
     public function getEmail(): ?string
@@ -63,16 +68,16 @@ class Professor
         return $this;
     }
 
-    public function setNom(?string $nom): self
+    public function setName(?string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function setPrenom(?string $prenom): self
+    public function setFirstName(?string $firstName): self
     {
-        $this->prenom = $prenom;
+        $this->firstName = $firstName;
 
         return $this;
     }

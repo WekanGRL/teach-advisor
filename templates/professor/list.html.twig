@@ -1,0 +1,18 @@
+<h1>Professors</h1>
+<div class="addProfessor">
+    <a href={{ path('professor_create') }}> Add a new professor </a>
+</div>
+<div class="professors">
+    <table>
+        {% for professor in professors %}
+            <tr>
+                <td> {{ professor.id }} </td>
+                <td> {{ professor.name }} </td>
+                <td> {{ professor.firstName }} </td>
+                <td> {{ professor.email }} </td>
+                <td> <a href={{ path('professor_update', {id: professor.id}) }}>Edit</a> </td>
+                <td> <a href={{ path('professor_delete', {id: professor.id}) }}>Remove</a> </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
