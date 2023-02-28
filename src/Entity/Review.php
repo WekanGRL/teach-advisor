@@ -23,6 +23,10 @@ class Review
     #[ORM\Column(length: 255)]
     private ?string $studentEmail = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Professor $professor = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Review
     public function setStudentEmail(string $studentEmail): self
     {
         $this->studentEmail = $studentEmail;
+
+        return $this;
+    }
+
+    public function getProfessor(): ?Professor
+    {
+        return $this->professor;
+    }
+
+    public function setProfessor(?Professor $professor): self
+    {
+        $this->professor = $professor;
 
         return $this;
     }

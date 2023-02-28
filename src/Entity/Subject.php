@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SubjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
@@ -18,6 +20,14 @@ class Subject
 
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
+
+    #[ORM\ManyToMany(targetEntity: Professor::class, mappedBy: 'subjects')]
+    private Collection $professors;
+
+    public function __construct()
+    {
+        $this->professors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +54,33 @@ class Subject
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Professor>
+     */
+    public function getProfessors(): Collection
+    {
+        return $this->professors;
+    }
+
+    public function addProfessor(Professor $professor): self
+    {
+        if (!$this->professors->contains($professor)) {
+            $this->professors->add($professor);
+            $professor->addSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfessor(Professor $professor): self
+    {
+        if ($this->professors->removeElement($professor)) {
+            $professor->removeSubject($this);
+        }
 
         return $this;
     }
