@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/professor', name:'professor_')]
 class ProfessorController extends AbstractController
 {
-    #[Route('/', name: 'list', methods: ['GET'])]
+    #[Route('', name: 'list', methods: ['GET'])]
     public function list(ProfessorRepository $repository) : Response
     {
         $professors = $repository->findAll();

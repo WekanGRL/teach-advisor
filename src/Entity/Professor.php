@@ -6,10 +6,11 @@ use App\Repository\ProfessorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfessorRepository::class)]
-class Professor
+class Professor implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -143,6 +144,17 @@ class Professor
         $this->subjects->removeElement($subject);
 
         return $this;
+    }
+
+    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'first_name' => "null|string", 'email' => "null|string"])]
+    public function jsonSerialize() : array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'first_name' => $this->firstName,
+            'email' => $this->email,
+        ];
     }
 
 }
