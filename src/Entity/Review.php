@@ -6,8 +6,14 @@ use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
+#[UniqueEntity( fields: ['professor','studentEmail'],
+                message: "This student has already noted this professor.",
+                errorPath: "studentEmail")]
+
 class Review implements \JsonSerializable
 {
     #[ORM\Id]
@@ -16,12 +22,17 @@ class Review implements \JsonSerializable
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotBlank]
+    #[Assert\Range(min:0, max:5)]
     private ?int $note = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $comment = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $studentEmail = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
@@ -85,11 +96,19 @@ class Review implements \JsonSerializable
     public function jsonSerialize() : array
     {
         return [
-            'id' => $this->id,
-            'note' => $this->note,
-            'comment' => $this->comment,
-            'studentEmail' => $this->studentEmail,
-            'professor' => $this->professor
+            'id'            => $this->id,
+            'note'          => $this->note,
+            'comment'       => $this->comment,
+            'studentEmail'  => $this->studentEmail,
         ];
+    }
+
+    public function fromArray(array $data) : self
+    {
+        $this->note = $data['note'] ?? $this->note;
+        $this->comment = $data['comment'] ?? $this->comment;
+        $this->studentEmail = $data['studentEmail'] ?? $this->studentEmail;
+
+        return $this;
     }
 }

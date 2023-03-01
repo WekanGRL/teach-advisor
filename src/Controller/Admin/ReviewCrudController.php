@@ -21,7 +21,7 @@ class ReviewCrudController extends AbstractCrudController
                 ->setChoices(fn () => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5])
                 ->renderAsNativeWidget(),
             'comment',
-            '$studentEmail',
+            'studentEmail',
             AssociationField::new('professor'),
         ];
     }

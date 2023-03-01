@@ -150,11 +150,11 @@ class Professor implements \JsonSerializable
     public function jsonSerialize() : array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'first_name' => $this->firstName,
-            'email' => $this->email,
-            'subjects' => $this->subjects,
+            'id'            => $this->id,
+            'name'          => $this->name,
+            'first_name'    => $this->firstName,
+            'email'         => $this->email,
+            'subjects'      => $this->subjects->toArray(),
         ];
     }
 
