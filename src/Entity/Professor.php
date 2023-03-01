@@ -146,7 +146,7 @@ class Professor implements \JsonSerializable
         return $this;
     }
 
-    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'first_name' => "null|string", 'email' => "null|string"])]
+    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'first_name' => "null|string", 'email' => "null|string", 'subjects' => 'Subject'])]
     public function jsonSerialize() : array
     {
         return [
@@ -154,6 +154,7 @@ class Professor implements \JsonSerializable
             'name' => $this->name,
             'first_name' => $this->firstName,
             'email' => $this->email,
+            'subjects' => $this->subjects,
         ];
     }
 

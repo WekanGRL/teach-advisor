@@ -6,9 +6,10 @@ use App\Repository\SubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
-class Subject
+class Subject implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -88,5 +89,16 @@ class Subject
         }
 
         return $this;
+    }
+
+    #[ArrayShape(['id' => "int|null", 'title' => "null|string", 'reference' => "null|string"])]
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'reference' => $this->reference,
+        ];
+
     }
 }

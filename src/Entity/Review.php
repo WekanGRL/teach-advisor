@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
-class Review
+class Review implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -78,5 +79,17 @@ class Review
         $this->professor = $professor;
 
         return $this;
+    }
+
+    #[ArrayShape(['id' => "int|null", 'note' => "int|null", 'comment' => "null|string", 'studentEmail' => "null|string", 'professor' => "Professor"])]
+    public function jsonSerialize() : array
+    {
+        return [
+            'id' => $this->id,
+            'note' => $this->note,
+            'comment' => $this->comment,
+            'studentEmail' => $this->studentEmail,
+            'professor' => $this->professor
+        ];
     }
 }

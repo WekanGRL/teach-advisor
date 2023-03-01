@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Professor;
 use App\Repository\ProfessorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,6 +33,19 @@ class ProfessorController extends AbstractController
         $response->setStatusCode(Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');*/
 
-        return $this->json($professors);
+        return $this->json($professors, Response::HTTP_OK);
     }
+
+    #[Route('/{id}', name:'findOne', methods: ['GET'])]
+    public function findOne(?Professor $professor): JsonResponse
+    {
+        if ( is_null($professor) )
+        {
+            return $this->json([
+                'message' => 'A professor with the specified id does not exist'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($professor, Response::HTTP_OK);
+    }
+
 }
