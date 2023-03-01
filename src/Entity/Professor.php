@@ -41,6 +41,11 @@ class Professor
         $this->subjects = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return sprintf('%s %s (%s)', $this->firstName, $this->name, $this->email);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
