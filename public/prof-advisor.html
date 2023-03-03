@@ -18,7 +18,12 @@
                             <h5 class="card-title">
                                 {{ teacher.name }} {{ teacher.surname }}
                             </h5>
-                            <div class="card-text"></div>
+                            <div class="card-text">
+                                {{ teacher.email }} <br>
+
+                                <span v-for="subject in teacher.subjects">
+                                    {{ subject.title }} {{ subject.reference }},
+                            </div>
                         </div>
                     </div>
                 </div>
