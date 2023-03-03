@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Professor;
+use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Professor>
+ * @extends ServiceEntityRepository<Teacher>
  *
- * @method Professor|null find($id, $lockMode = null, $lockVersion = null)
- * @method Professor|null findOneBy(array $criteria, array $orderBy = null)
- * @method Professor[]    findAll()
- * @method Professor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Teacher|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Teacher|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Teacher[]    findAll()
+ * @method Teacher[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProfessorRepository extends ServiceEntityRepository
+class TeacherRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Professor::class);
+        parent::__construct($registry, Teacher::class);
     }
 
-    public function save(Professor $entity, bool $flush = false): void
+    public function save(Teacher $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ProfessorRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Professor $entity, bool $flush = false): void
+    public function remove(Teacher $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ProfessorRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Professor[] Returns an array of Professor objects
+//     * @return Teacher[] Returns an array of Teacher objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ProfessorRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Professor
+//    public function findOneBySomeField($value): ?Teacher
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

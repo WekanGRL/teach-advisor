@@ -26,7 +26,7 @@ class ReviewController extends AbstractController
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $review->getProfessor()->removeReview($review);
+        $review->getTeacher()->removeReview($review);
 
         $repository->remove($review, true);
 

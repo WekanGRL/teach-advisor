@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Professor;
+use App\Entity\Teacher;
 use App\Entity\Review;
 use App\Entity\Subject;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -20,7 +20,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(ProfessorCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(TeacherCrudController::class)->generateUrl());
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -34,12 +34,12 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Prof Advisor');
+            ->setTitle('Teacher Advisor');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('Professors', 'fas fa-chalkboard-teacher', Professor::class);
+        yield MenuItem::linkToCrud('Teachers', 'fas fa-chalkboard-teacher', Teacher::class);
         yield MenuItem::linkToCrud('Reviews', 'fas fa-book-open', Review::class);
         yield MenuItem::linkToCrud('Subjects', 'fas fa-star', Subject::class);
     }

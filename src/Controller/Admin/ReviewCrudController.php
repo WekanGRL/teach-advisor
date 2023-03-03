@@ -22,7 +22,7 @@ class ReviewCrudController extends AbstractCrudController
                 ->renderAsNativeWidget(),
             'comment',
             'studentEmail',
-            AssociationField::new('professor'),
+            AssociationField::new('teacher'),
         ];
     }
 }

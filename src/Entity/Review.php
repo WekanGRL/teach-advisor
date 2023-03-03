@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
-#[UniqueEntity( fields: ['professor','studentEmail'],
-                message: "This student has already noted this professor.",
+#[UniqueEntity( fields: ['teacher','studentEmail'],
+                message: "This student has already noted this teacher.",
                 errorPath: "studentEmail")]
 
 class Review implements \JsonSerializable
@@ -37,7 +37,7 @@ class Review implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Professor $professor = null;
+    private ?Teacher $teacher = null;
 
     public function getId(): ?int
     {
@@ -80,19 +80,19 @@ class Review implements \JsonSerializable
         return $this;
     }
 
-    public function getProfessor(): ?Professor
+    public function getTeacher(): ?Teacher
     {
-        return $this->professor;
+        return $this->teacher;
     }
 
-    public function setProfessor(?Professor $professor): self
+    public function setTeacher(?Teacher $teacher): self
     {
-        $this->professor = $professor;
+        $this->teacher = $teacher;
 
         return $this;
     }
 
-    #[ArrayShape(['id' => "int|null", 'note' => "int|null", 'comment' => "null|string", 'studentEmail' => "null|string", 'professor' => "Professor"])]
+    #[ArrayShape(['id' => "int|null", 'note' => "int|null", 'comment' => "null|string", 'studentEmail' => "null|string", 'teacher' => "Teacher"])]
     public function jsonSerialize() : array
     {
         return [

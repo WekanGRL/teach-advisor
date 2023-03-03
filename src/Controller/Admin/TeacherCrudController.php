@@ -2,15 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Professor;
+use App\Entity\Teacher;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
-class ProfessorCrudController extends AbstractCrudController
+class TeacherCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Professor::class;
+        return Teacher::class;
     }
 
 

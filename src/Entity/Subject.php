@@ -22,12 +22,12 @@ class Subject implements \JsonSerializable
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
 
-    #[ORM\ManyToMany(targetEntity: Professor::class, mappedBy: 'subjects')]
-    private Collection $professors;
+    #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'subjects')]
+    private Collection $teachers;
 
     public function __construct()
     {
-        $this->professors = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -65,27 +65,27 @@ class Subject implements \JsonSerializable
     }
 
     /**
-     * @return Collection<int, Professor>
+     * @return Collection<int, Teacher>
      */
-    public function getProfessors(): Collection
+    public function getTeachers(): Collection
     {
-        return $this->professors;
+        return $this->teachers;
     }
 
-    public function addProfessor(Professor $professor): self
+    public function addTeacher(Teacher $teacher): self
     {
-        if (!$this->professors->contains($professor)) {
-            $this->professors->add($professor);
-            $professor->addSubject($this);
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers->add($teacher);
+            $teacher->addSubject($this);
         }
 
         return $this;
     }
 
-    public function removeProfessor(Professor $professor): self
+    public function removeTeacher(Teacher $teacher): self
     {
-        if ($this->professors->removeElement($professor)) {
-            $professor->removeSubject($this);
+        if ($this->teachers->removeElement($teacher)) {
+            $teacher->removeSubject($this);
         }
 
         return $this;

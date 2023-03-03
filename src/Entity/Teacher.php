@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ProfessorRepository;
+use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ProfessorRepository::class)]
-class Professor implements \JsonSerializable
+#[ORM\Entity(repositoryClass: TeacherRepository::class)]
+class Teacher implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,10 +30,10 @@ class Professor implements \JsonSerializable
     #[Assert\Email]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'professor', targetEntity: Review::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Review::class, orphanRemoval: true)]
     private Collection $reviews;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'professors')]
+    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'teachers')]
     private Collection $subjects;
 
     public function __construct()
@@ -104,7 +104,7 @@ class Professor implements \JsonSerializable
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews->add($review);
-            $review->setProfessor($this);
+            $review->setTeacher($this);
         }
 
         return $this;
@@ -114,8 +114,8 @@ class Professor implements \JsonSerializable
     {
         if ($this->reviews->removeElement($review)) {
             // set the owning side to null (unless already changed)
-            if ($review->getProfessor() === $this) {
-                $review->setProfessor(null);
+            if ($review->getTeacher() === $this) {
+                $review->setTeacher(null);
             }
         }
 

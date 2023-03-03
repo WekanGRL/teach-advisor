@@ -2,9 +2,9 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Professor;
+use App\Entity\Teacher;
 use App\Entity\Review;
-use App\Repository\ProfessorRepository;
+use App\Repository\TeacherRepository;
 use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,67 +13,67 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/professor', name: 'api_professor_')]
-class ProfessorController extends AbstractController
+#[Route('/api/teacher', name: 'api_teacher_')]
+class TeacherController extends AbstractController
 {
-    const PROF_NOT_FOUND = 'A professor with the specified id does not exist';
+    const PROF_NOT_FOUND = 'A teacher with the specified id does not exist';
 
     #[Route('', name:'list', methods: ['GET'])]
-    public function list(ProfessorRepository $repository): JsonResponse
+    public function list(TeacherRepository $repository): JsonResponse
     {
-        $professors = $repository->findAll();
+        $teachers = $repository->findAll();
 
         /*$arr = [];
 
-        foreach($professors as $professor)
+        foreach($teachers as $teacher)
         {
-            $arr[] = $professor->__toArray();
+            $arr[] = $teacher->__toArray();
         }
 
         $json = json_encode($arr);
 
-        $json = json_encode(array_map(fn ($professor) => $professor->__toArray(), $professors));
+        $json = json_encode(array_map(fn ($teacher) => $teacher->__toArray(), $teachers));
 
         $response = new Response();
         $response->setContent($json);
         $response->setStatusCode(Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');*/
 
-        return $this->json($professors, Response::HTTP_OK);
+        return $this->json($teachers, Response::HTTP_OK);
     }
 
     #[Route('/{id}', name:'findOne', methods: ['GET'])]
-    public function findOne(?Professor $professor): JsonResponse
+    public function findOne(?Teacher $teacher): JsonResponse
     {
-        if ( is_null($professor) )
+        if ( is_null($teacher) )
         {
             return $this->json([
-                'message' => ProfessorController::PROF_NOT_FOUND
+                'message' => TeacherController::PROF_NOT_FOUND
             ], Response::HTTP_NOT_FOUND);
         }
-        return $this->json($professor, Response::HTTP_OK);
+        return $this->json($teacher, Response::HTTP_OK);
     }
 
     #[Route('/{id}/reviews', name:'findOnesReview', methods:['GET'])]
-    public function findOnesReview(?Professor $professor) : JsonResponse
+    public function findOnesReview(?Teacher $teacher) : JsonResponse
     {
-        if( is_null($professor) )
+        if( is_null($teacher) )
         {
             return $this->json([
-                'message' => ProfessorController::PROF_NOT_FOUND
+                'message' => TeacherController::PROF_NOT_FOUND
             ], Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($professor->getReviews()->toArray(), Response::HTTP_OK);
+        return $this->json($teacher->getReviews()->toArray(), Response::HTTP_OK);
     }
 
     #[Route('/{id}/reviews', name:'addReviews', methods:['GET', 'POST'])]
-    public function addReviews(Request $request, ?Professor $professor, ReviewRepository $rvRepository, ValidatorInterface $validator) : JsonResponse
+    public function addReviews(Request $request, ?Teacher $teacher, ReviewRepository $rvRepository, ValidatorInterface $validator) : JsonResponse
     {
-        if( is_null($professor) )
+        if( is_null($teacher) )
         {
             return $this->json([
-                'message' => ProfessorController::PROF_NOT_FOUND
+                'message' => TeacherController::PROF_NOT_FOUND
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -81,7 +81,7 @@ class ProfessorController extends AbstractController
 
         $review = (new Review())
                 ->fromArray($data)
-                ->setProfessor($professor);
+                ->setTeacher($teacher);
 
         $errors = $validator->validate($review);
 
