@@ -18,7 +18,7 @@ class TeacherCrudController extends AbstractCrudController
     {
         return [
             'name',
-            'first_name',
+            'surname',
             'email',
             AssociationField::new('subjects')
                 ->setFormTypeOptions([

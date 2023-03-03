@@ -23,7 +23,7 @@ class Teacher implements \JsonSerializable
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    private ?string $firstName = null;
+    private ?string $surname = null;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank]
@@ -44,7 +44,7 @@ class Teacher implements \JsonSerializable
 
     public function __toString()
     {
-        return sprintf('%s %s (%s)', $this->firstName, $this->name, $this->email);
+        return sprintf('%s %s (%s)', $this->surname, $this->name, $this->email);
     }
 
     public function getId(): ?int
@@ -57,9 +57,9 @@ class Teacher implements \JsonSerializable
         return $this->name;
     }
 
-    public function getFirstName(): ?string
+    public function getSurname(): ?string
     {
-        return $this->firstName;
+        return $this->surname;
     }
 
     public function getEmail(): ?string
@@ -81,9 +81,9 @@ class Teacher implements \JsonSerializable
         return $this;
     }
 
-    public function setFirstName(?string $firstName): self
+    public function setSurname(?string $surname): self
     {
-        $this->firstName = $firstName;
+        $this->surname = $surname;
 
         return $this;
     }
@@ -146,13 +146,13 @@ class Teacher implements \JsonSerializable
         return $this;
     }
 
-    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'first_name' => "null|string", 'email' => "null|string", 'subjects' => 'Subject'])]
+    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'surname' => "null|string", 'email' => "null|string", 'subjects' => 'Subject'])]
     public function jsonSerialize() : array
     {
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'first_name'    => $this->firstName,
+            'surname'    => $this->surname,
             'email'         => $this->email,
             'subjects'      => $this->subjects->toArray(),
         ];
