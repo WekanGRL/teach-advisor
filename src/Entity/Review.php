@@ -39,6 +39,11 @@ class Review implements \JsonSerializable
     #[ORM\JoinColumn(nullable: false)]
     private ?Teacher $teacher = null;
 
+    public function __toString() : string
+    {
+        return sprintf('Review noted %s by %s', $this->note, $this->studentEmail);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,4 +116,6 @@ class Review implements \JsonSerializable
 
         return $this;
     }
+
+
 }

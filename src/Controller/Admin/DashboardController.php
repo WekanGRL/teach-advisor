@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Teacher;
 use App\Entity\Review;
 use App\Entity\Subject;
+use App\Entity\Lesson;
+use App\Entity\Room;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -39,8 +41,11 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('Teachers', 'fas fa-chalkboard-teacher', Teacher::class);
+        yield MenuItem::linkToCrud('Teachers', 'fas fa-user-magnifying-glass', Teacher::class);
         yield MenuItem::linkToCrud('Reviews', 'fas fa-book-open', Review::class);
         yield MenuItem::linkToCrud('Subjects', 'fas fa-star', Subject::class);
+        yield MenuItem::linkToCrud('Lessons', 'fas fa-book', Lesson::class);
+        yield MenuItem::linkToCrud('Rooms', 'fas fa-door-open', Room::class);
+
     }
 }

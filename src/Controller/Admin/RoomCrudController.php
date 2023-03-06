@@ -2,26 +2,25 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Subject;
+use App\Entity\Room;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
-class SubjectCrudController extends AbstractCrudController
+class RoomCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Subject::class;
+        return Room::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            'title',
-            'reference',
+            'number',
             AssociationField::new('lessons')
                 ->setFormTypeOptions([
                     'by_reference' => false,
-                ]),
+                    ]),
         ];
     }
 
