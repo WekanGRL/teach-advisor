@@ -25,9 +25,13 @@ class Subject implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'subjects')]
     private Collection $teachers;
 
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Lesson::class, orphanRemoval: true)]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -100,5 +104,35 @@ class Subject implements \JsonSerializable
             'reference' => $this->reference,
         ];
 
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): self
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): self
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            // set the owning side to null (unless already changed)
+            if ($lesson->getSubject() === $this) {
+                $lesson->setSubject(null);
+            }
+        }
+
+        return $this;
     }
 }

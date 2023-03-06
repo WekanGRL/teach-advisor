@@ -36,10 +36,14 @@ class Teacher implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'teachers')]
     private Collection $subjects;
 
+    #[ORM\OneToMany(mappedBy: 'Teacher', targetEntity: Lesson::class, orphanRemoval: true)]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->subjects = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function __toString()
@@ -156,6 +160,36 @@ class Teacher implements \JsonSerializable
             'email'         => $this->email,
             'subjects'      => $this->subjects->toArray(),
         ];
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): self
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): self
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            // set the owning side to null (unless already changed)
+            if ($lesson->getTeacher() === $this) {
+                $lesson->setTeacher(null);
+            }
+        }
+
+        return $this;
     }
 
 }
