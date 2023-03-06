@@ -17,10 +17,6 @@ class RoomCrudController extends AbstractCrudController
     {
         return [
             'number',
-            AssociationField::new('lessons')
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                    ]),
         ];
     }
 

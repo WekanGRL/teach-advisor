@@ -3,7 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Lesson;
+use App\Repository\SubjectRepository;
+
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
@@ -23,6 +26,9 @@ class LessonCrudController extends AbstractCrudController
             ChoiceField::new('type')
                 ->setChoices(fn () => ["Tutorial" => 0, "Practicum" => 1,  "Lecture" => 2])
                 ->renderAsNativeWidget(),
+            AssociationField::new('room'),
+            $t = AssociationField::new('teacher'),
+            $s = AssociationField::new('subject'),
         ];
     }
 }

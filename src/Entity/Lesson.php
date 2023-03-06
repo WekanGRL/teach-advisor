@@ -21,6 +21,9 @@ class Lesson
     private ?\DateTimeInterface $endDateTime = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\ExpressionSyntax(
+        allowedVariables: ['Tutorial', 'Practicum', 'Lecture'],
+    )]
     private ?string $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
@@ -33,7 +36,7 @@ class Lesson
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Teacher $Teacher = null;
+    private ?Teacher $teacher = null;
 
     public function getId(): ?int
     {
@@ -102,12 +105,12 @@ class Lesson
 
     public function getTeacher(): ?Teacher
     {
-        return $this->Teacher;
+        return $this->teacher;
     }
 
-    public function setTeacher(?Teacher $Teacher): self
+    public function setTeacher(?Teacher $teacher): self
     {
-        $this->Teacher = $Teacher;
+        $this->teacher = $teacher;
 
         return $this;
     }

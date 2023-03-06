@@ -18,10 +18,6 @@ class SubjectCrudController extends AbstractCrudController
         return [
             'title',
             'reference',
-            AssociationField::new('lessons')
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                ]),
         ];
     }
 

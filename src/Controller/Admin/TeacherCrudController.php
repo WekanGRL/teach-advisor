@@ -24,10 +24,6 @@ class TeacherCrudController extends AbstractCrudController
                 ->setFormTypeOptions([
                     'by_reference' => false,
                 ]),
-            AssociationField::new('lessons')
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                ]),
         ];
     }
 }
