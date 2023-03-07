@@ -8,7 +8,7 @@
             <tr>
                 <td> {{ teacher.id }} </td>
                 <td> {{ teacher.name }} </td>
-                <td> {{ teacher.firstName }} </td>
+                <td> {{ teacher.surname }} </td>
                 <td> {{ teacher.email }} </td>
                 <td> <a href={{ path('teacher_update', {id: teacher.id}) }}>Edit</a> </td>
                 <td> <a href={{ path('teacher_delete', {id: teacher.id}) }}>Remove</a> </td>
