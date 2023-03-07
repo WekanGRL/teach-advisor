@@ -27,8 +27,8 @@ class LessonCrudController extends AbstractCrudController
                 ->setChoices(fn () => ["Tutorial" => 0, "Practicum" => 1,  "Lecture" => 2])
                 ->renderAsNativeWidget(),
             AssociationField::new('room'),
-            $t = AssociationField::new('teacher'),
-            $s = AssociationField::new('subject'),
+            AssociationField::new('teacher'),
+            AssociationField::new('subject'),
         ];
     }
 }
