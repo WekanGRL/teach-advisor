@@ -18,15 +18,31 @@ class Teacher implements \JsonSerializable
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 25,
+        minMessage: 'The name must be at least 2 characters long',
+        maxMessage: 'The name must be less than 25 characters long. \n If the name has more than 25 characters, type the 25 firsts.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 25,
+        minMessage: 'The surname must be at least 2 characters long',
+        maxMessage: 'The surname must be less than 25 characters long. \n If the surname has more than 25 characters, type the 25 firsts.'
+    )]
     private ?string $surname = null;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Assert\Length(
+        max: 50,
+        maxMessage: 'The email must be less than 5O characters long. \n If the email has more than 50 characters, use another email.'
+    )]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Review::class, orphanRemoval: true)]
@@ -35,7 +51,7 @@ class Teacher implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'teachers')]
     private Collection $subjects;
 
-    #[ORM\OneToMany(mappedBy: 'Teacher', targetEntity: Lesson::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Lesson::class, orphanRemoval: true)]
     private Collection $lessons;
 
     public function __construct()

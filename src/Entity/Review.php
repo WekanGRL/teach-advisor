@@ -37,6 +37,7 @@ class Review implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Teacher $teacher = null;
 
     public function __toString() : string

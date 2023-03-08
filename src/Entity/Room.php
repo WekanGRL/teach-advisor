@@ -6,6 +6,7 @@ use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room implements \JsonSerializable
@@ -16,6 +17,11 @@ class Room implements \JsonSerializable
     private ?int $id = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^(Amphitheatre|[Rr].[0-9]{3})$/',
+        message: 'The room number must be either "Amphitheatre" or in the format "R.NNN"'
+    )]
     private ?string $number = null;
 
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Lesson::class, orphanRemoval: true)]

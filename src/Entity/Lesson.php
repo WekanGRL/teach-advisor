@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Lesson implements \JsonSerializable
 {
     const TYPES = ['Tutorial', 'Practicum', 'Lecture', 'Exam'];
-    const DURATION_HOUR = 1;
-    const DURATION_MINUTE = 30;
+    const DURATION_HOURS = 1;
+    const DURATION_MINUTES = 30;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,16 +24,19 @@ class Lesson implements \JsonSerializable
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Expression(
-        expression: 'this.getStartDateTime() < this.getEndDateTime()',
-        message: 'The start date must be before the end date.',
-    )]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $startDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThan(
+        propertyPath: 'startDateTime',
+        message: 'The start date must be before the end date.',
+    )]
     private ?\DateTimeInterface $endDateTime = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank]
     #[Assert\ExpressionSyntax(
         message: 'The type must be one of the following: "Tutorial", "Practicum", "Lecture", "Exam".',
         allowedVariables: Lesson::TYPES,
@@ -42,10 +45,12 @@ class Lesson implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Room $room = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     #[Assert\Expression(
         expression: 'this.getSubject() in this.getTeacher().getSubjects().toArray()',
         message: 'The selected subject must be one of the teacher\'s.',
@@ -54,6 +59,7 @@ class Lesson implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Teacher $teacher = null;
 
     public function getId(): ?int
@@ -154,8 +160,8 @@ class Lesson implements \JsonSerializable
             $dateInterval->y == 0 &&
             $dateInterval->m == 0 &&
             $dateInterval->d == 0 &&
-            $dateInterval->h == Lesson::DURATION_HOUR &&
-            $dateInterval->i == Lesson::DURATION_MINUTE
+            $dateInterval->h == Lesson::DURATION_HOURS &&
+            $dateInterval->i == Lesson::DURATION_MINUTES
         );
     }
 

@@ -7,8 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
+#[UniqueEntity( fields: ['reference'],
+    message: "This subject already exists.",
+    errorPath: "reference")]
 class Subject implements \JsonSerializable
 {
     #[ORM\Id]
@@ -17,9 +22,15 @@ class Subject implements \JsonSerializable
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^[A-Z]{2}[0-9]{3}$/',
+        message: 'The reference must be in the format XX000'
+    )]
     private ?string $reference = null;
 
     #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'subjects')]
