@@ -43,7 +43,7 @@ class TeacherController extends AbstractController
         ]);
     }
 
-    #[Route('{id}/update/', name: 'update', methods: ['GET', 'POST'])]
+    #[Route('/{id}/update', name: 'update', methods: ['GET', 'POST'])]
     public function update(Request $request, TeacherRepository $repository, Teacher $teacher) : Response
     {
         $form = $this->createForm(TeacherType::class, $teacher);
@@ -61,10 +61,16 @@ class TeacherController extends AbstractController
         ]);
     }
 
-    #[Route('{id}/delete/', name: 'delete', methods: ['GET'])]
+    #[Route('/{id}/delete', name: 'delete', methods: ['GET'])]
     public function delete(TeacherRepository $repository, Teacher $teacher) : Response
     {
         $repository->remove($teacher, true);
         return $this->redirectToRoute('teacher_list');
+    }
+
+    #[Route('/calendar/day', name: 'show_calendar', methods: ['GET'])]
+    public function showCalendar() : Response
+    {
+        return $this->render('teacher/calendar.html.twig');
     }
 }

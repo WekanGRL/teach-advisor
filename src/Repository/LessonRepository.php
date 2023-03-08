@@ -39,6 +39,33 @@ class LessonRepository extends ServiceEntityRepository
         }
     }
 
+    public function list(): array{
+        $this->getEntityManager()
+            ->createQueryBuilder('l')
+            ->Join('l.room','r')
+            ->Join('l.subject','s')
+            ->Join('l.teacher','t')
+            ->where('')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function getByDate(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m-d")." 23:59:59");
+
+        $qb = $this->createQueryBuilder("e");
+        $qb
+            ->andWhere('e.startDateTime BETWEEN :from AND :to')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
 //    /**
 //     * @return Lesson[] Returns an array of Lesson objects
 //     */

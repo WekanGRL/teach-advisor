@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
-class Room
+class Room implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -76,5 +76,13 @@ class Room
         }
 
         return $this;
+    }
+    
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'number' => $this->getNumber(),
+        ];
     }
 }

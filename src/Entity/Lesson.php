@@ -6,8 +6,9 @@ use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
-class Lesson
+class Lesson implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -113,5 +114,18 @@ class Lesson
         $this->teacher = $teacher;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'startDateTime' => $this->startDateTime,
+            'endDateTime' => $this->endDateTime,
+            'type' => $this->type,
+            'room' => $this->room,
+            'subject' => $this->subject,
+            'teacher' => $this->teacher,
+        ];
     }
 }
