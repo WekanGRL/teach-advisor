@@ -88,6 +88,15 @@
         justify-content: center !important;
         align-items: center;
     }
+    .btnSuivant{
+        background-color: #f6984c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+    }
+
 </style>
 
 <head>
@@ -103,9 +112,7 @@
 <body>
     <div id="app" class="container">
             <br />
-            <button @click="$refs.vuecal.previous()">Previous</button>
-            <button @click="$refs.vuecal.switchView('day', new Date())">Today</button>
-            <button @click="$refs.vuecal.next()">Next</button>
+
 
         <vue-cal class="vuecal--blue-theme" :time-from="8 * 60" :time-to="18 * 60 + 30" :time-step="30"
             :disable-views="['years', 'year', 'month']" hide-weekends :events="events" cell-contextmenu
@@ -113,9 +120,13 @@
             v-model:active-view="activeView"
             v-model:selected-date="selectedDate"
 
+            
+
             @view-change="viewChange($event)" 
             @cell-click="logChange('cell-click', $event)"
+
             @cell-dblclick="logChange('cell-dblclick', $event)"
+
             @cell-contextmenu="logChange('cell-contextmenu', $event)"
             >
 
@@ -123,12 +134,13 @@
     </div>
 
     <script type="text/javascript">
-        buttonSuivant = document.getElementsByClassName('vuecal__arrow vuecal__arrow--next');
-        buttonSuivant.disabled = true;
+
+
+
         Vue.createApp({
             components: { VueCal: vuecal },
             el: '#app',
-            activeView: 'day',
+            activeView: 'week',
             today: null,
             midBreakStart: null,
             selectedDate: null,
@@ -143,7 +155,7 @@
                 getLessonsByDay: function (date) {
                     this.erros = [];
                     
-                    axios.post("http://localhost:8000/api/lesson/date", { date: date })
+                    axios.post("http://localhost:8000/api/lesson/date/day", { date: date })
                         .then(response => {
                             this.lessons = response.data;
                             this.lessons.forEach((lesson) => this.addToTab(lesson));
@@ -153,6 +165,19 @@
                         })
                 },
 
+                getLessonsByWeek: function(startDate, endDate){
+                    this.erros = [];
+                    
+                    axios.post("http://localhost:8000/api/lesson/date/week", { startDate: startDate, endDate: endDate }) 
+                        .then(response => {
+                            this.lessons = response.data;
+                            this.lessons.forEach((lesson) => this.addToTab(lesson));
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
+                },
+                
                 addToTab: function (lesson) {
                     var htmlClass = null;
                     if (!this.color.find((color) => color.id == lesson.subject.id)) {
@@ -195,20 +220,18 @@
                     this.events = [];
 
                     var view = event['view'];
-                    var time = new Date().getTime();
-                    var date = new Date(time);
-                    var temp = new Date(event['startDate'])
-                    console.log(temp.getHours()+9) 
-                    temp.setHours(9)
-                    console.log(date)
-                    console.log(temp) 
-
+                    // var time = new Date().getTime();
+                    // var date = new Date(time);
+                    var date = new Date(event['startDate'])
+                    date.setHours(9)
+                    
+                    console.log(event)
                     switch (view) {
                         case 'day':
-                            this.getLessonsByDay(temp);
+                            this.getLessonsByDay(date);
                             break;
                         case 'week':
-                            // function lessons by weekend
+                            this.getLessonsByWeek(new Date(event['startDate']), new Date(event['endDate']));
                             break;
                     }
                 }

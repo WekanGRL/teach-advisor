@@ -5615,7 +5615,7 @@
         <argument key="teacher" type="service_closure" id=".errored..service_locator.LXi7gqJ.App\Entity\Teacher"/>
       </argument>
     </service>
-    <service id=".service_locator.LNaLmcl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Xw3r._t" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\Admin\DashboardController::configureUserMenu" type="service_closure" id=".service_locator.t7nLwyX"/>
@@ -5725,6 +5725,7 @@
         <argument key="App\Controller\Admin\TeacherCrudController::renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\TeacherCrudController::updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Api\LessonController::date" type="service_closure" id=".service_locator.Ovs.GCW"/>
+        <argument key="App\Controller\Api\LessonController::date_week" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController::list" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\ReviewController::delete" type="service_closure" id=".service_locator.jADULHE"/>
         <argument key="App\Controller\Api\ReviewController::edit" type="service_closure" id=".service_locator.v67qpBr"/>
@@ -5846,6 +5847,7 @@
         <argument key="App\Controller\Admin\TeacherCrudController:renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\TeacherCrudController:updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Api\LessonController:date" type="service_closure" id=".service_locator.Ovs.GCW"/>
+        <argument key="App\Controller\Api\LessonController:date_week" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController:list" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\ReviewController:delete" type="service_closure" id=".service_locator.jADULHE"/>
         <argument key="App\Controller\Api\ReviewController:edit" type="service_closure" id=".service_locator.v67qpBr"/>
@@ -6362,12 +6364,12 @@
       <argument type="service" id="EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.LNaLmcl"/>
+      <argument type="service" id=".service_locator.Xw3r._t"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.LNaLmcl"/>
+      <argument type="service" id=".service_locator.Xw3r._t"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -7148,7 +7150,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Menu\MenuItemMatcherInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Menu\MenuItemMatcher"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.LNaLmcl"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.Xw3r._t"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -7160,7 +7162,7 @@
     <service id=".service_locator.8empKU8" alias=".service_locator.jADULHE"/>
     <service id=".service_locator.QfUBKal" alias=".service_locator.v67qpBr"/>
     <service id=".service_locator.Ek.QONr" alias=".service_locator.D9pHme0"/>
-    <service id=".service_locator._Z5LE8a" alias=".service_locator.LNaLmcl"/>
+    <service id=".service_locator.3MKVP5l" alias=".service_locator.Xw3r._t"/>
     <service id=".service_locator.9XMoc9I" alias=".service_locator.kzegaci"/>
     <service id=".service_locator.5Hae8Xl" alias=".service_locator.PeUZCPk"/>
     <service id=".service_locator.qBCHs1a" alias=".service_locator.QXcJQkF"/>
