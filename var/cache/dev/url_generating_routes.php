@@ -6,6 +6,8 @@ return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
     'admin' => [[], ['_controller' => 'App\\Controller\\Admin\\DashboardController::index'], [], [['text', '/admin']], [], [], []],
     'api_lessonget_all_lessons' => [[], ['_controller' => 'App\\Controller\\Api\\LessonController::list'], [], [['text', '/api/lesson/']], [], [], []],
+    'api_lessonget_date_day' => [[], ['_controller' => 'App\\Controller\\Api\\LessonController::date'], [], [['text', '/api/lesson/date/day']], [], [], []],
+    'api_lessonget_date_week' => [[], ['_controller' => 'App\\Controller\\Api\\LessonController::date_week'], [], [['text', '/api/lesson/date/week']], [], [], []],
     'api_review_delete' => [['id'], ['_controller' => 'App\\Controller\\Api\\ReviewController::delete'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/review']], [], [], []],
     'api_review_edit' => [['id'], ['_controller' => 'App\\Controller\\Api\\ReviewController::edit'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/review']], [], [], []],
     'api_roomget_all_room' => [[], ['_controller' => 'App\\Controller\\Api\\RoomController::list'], [], [['text', '/api/room/']], [], [], []],
@@ -15,7 +17,7 @@ return [
     'api_teacher_addReviews' => [['id'], ['_controller' => 'App\\Controller\\Api\\TeacherController::addReviews'], [], [['text', '/reviews'], ['variable', '/', '[^/]++', 'id', true], ['text', '/api/teacher']], [], [], []],
     'teacher_list' => [[], ['_controller' => 'App\\Controller\\TeacherController::list'], [], [['text', '/teacher']], [], [], []],
     'teacher_create' => [[], ['_controller' => 'App\\Controller\\TeacherController::create'], [], [['text', '/teacher/create']], [], [], []],
-    'teacher_update' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::update'], [], [['text', '/update/'], ['variable', '', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
-    'teacher_delete' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::delete'], [], [['text', '/delete/'], ['variable', '', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
+    'teacher_update' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::update'], [], [['text', '/update'], ['variable', '/', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
+    'teacher_delete' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::delete'], [], [['text', '/delete'], ['variable', '/', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
     'teacher_show_calendar' => [[], ['_controller' => 'App\\Controller\\TeacherController::showCalendar'], [], [['text', '/teacher/calendar/day']], [], [], []],
 ];

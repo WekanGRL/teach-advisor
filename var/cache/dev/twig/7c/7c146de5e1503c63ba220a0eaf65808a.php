@@ -63,7 +63,7 @@ class __TwigTemplate_e4584f45b3485fa3f1b359c0481911f3 extends Template
             echo " </td>
                 <td> ";
             // line 11
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["teacher"], "firstName", [], "any", false, false, false, 11), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["teacher"], "surname", [], "any", false, false, false, 11), "html", null, true);
             echo " </td>
                 <td> ";
             // line 12
@@ -118,13 +118,13 @@ class __TwigTemplate_e4584f45b3485fa3f1b359c0481911f3 extends Template
             <tr>
                 <td> {{ teacher.id }} </td>
                 <td> {{ teacher.name }} </td>
-                <td> {{ teacher.firstName }} </td>
+                <td> {{ teacher.surname }} </td>
                 <td> {{ teacher.email }} </td>
                 <td> <a href={{ path('teacher_update', {id: teacher.id}) }}>Edit</a> </td>
                 <td> <a href={{ path('teacher_delete', {id: teacher.id}) }}>Remove</a> </td>
             </tr>
         {% endfor %}
     </table>
-</div>", "teacher/list.html.twig", "C:\\Users\\mwarmee\\Documents\\Cours\\WEB\\Prof-Advisor\\templates\\teacher\\list.html.twig");
+</div>", "teacher/list.html.twig", "C:\\symfony\\prof-advisor\\templates\\teacher\\list.html.twig");
     }
 }
