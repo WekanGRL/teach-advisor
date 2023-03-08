@@ -6,7 +6,6 @@ use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeacherRepository::class)]
@@ -150,7 +149,6 @@ class Teacher implements \JsonSerializable
         return $this;
     }
 
-    #[ArrayShape(['id' => "int|null", 'name' => "null|string", 'surname' => "null|string", 'email' => "null|string", 'subjects' => 'Subject'])]
     public function jsonSerialize() : array
     {
         return [

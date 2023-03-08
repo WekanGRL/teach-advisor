@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Room extends \App\Entity\Room implements \Doctrine\Persistence\Proxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as __load;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -23,7 +23,7 @@ class Room extends \App\Entity\Room implements \Doctrine\Persistence\Proxy
         'id' => [parent::class, 'id', null],
         'lessons' => [parent::class, 'lessons', null],
         'number' => [parent::class, 'number', null],
-    ];
+    ];
 
     /**
      * @internal

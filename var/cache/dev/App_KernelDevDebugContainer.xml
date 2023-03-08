@@ -2516,6 +2516,9 @@
       <call method="setConfigCacheFactory">
         <argument type="service" id="config_cache_factory"/>
       </call>
+      <call method="addExpressionLanguageProvider">
+        <argument type="service" id="router.expression_language_provider"/>
+      </call>
     </service>
     <service id="router.request_context" class="Symfony\Component\Routing\RequestContext">
       <argument></argument>
@@ -2523,7 +2526,15 @@
       <argument>http</argument>
       <argument>80</argument>
       <argument>443</argument>
+      <call method="setParameter">
+        <argument>_functions</argument>
+        <argument type="service" id="router.expression_language_provider" on-invalid="ignore"/>
+      </call>
       <factory class="Symfony\Component\Routing\RequestContext" method="fromUri"/>
+    </service>
+    <service id="router.expression_language_provider" class="Symfony\Component\Routing\Matcher\ExpressionLanguageProvider">
+      <tag name="routing.expression_language_provider"/>
+      <argument type="service" id=".service_locator.Kl0E_Fe"/>
     </service>
     <service id="router.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer">
       <tag name="container.service_subscriber" id="router"/>
@@ -2916,7 +2927,10 @@
     </service>
     <service id="validator.expression" class="Symfony\Component\Validator\Constraints\ExpressionValidator">
       <tag name="validator.constraint_validator" alias="validator.expression"/>
-      <argument>null</argument>
+      <argument type="service" id="validator.expression_language" on-invalid="null"/>
+    </service>
+    <service id="validator.expression_language" class="Symfony\Component\ExpressionLanguage\ExpressionLanguage">
+      <argument type="service" id="cache.validator_expression_language" on-invalid="null"/>
     </service>
     <service id="cache.validator_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
@@ -2941,7 +2955,7 @@
     </service>
     <service id="validator.when" class="Symfony\Component\Validator\Constraints\WhenValidator">
       <tag name="validator.constraint_validator" alias="Symfony\Component\Validator\Constraints\WhenValidator"/>
-      <argument>null</argument>
+      <argument type="service" id="validator.expression_language" on-invalid="null"/>
     </service>
     <service id="validator.property_info_loader" class="Symfony\Component\Validator\Mapping\Loader\PropertyInfoLoader">
       <tag name="validator.auto_mapper"/>
@@ -3141,6 +3155,7 @@
     <service id="doctrine.orm.command.entity_manager_provider" class="Doctrine\Bundle\DoctrineBundle\Orm\ManagerRegistryAwareEntityManagerProvider">
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="doctrine.orm.entity_value_resolver.expression_language" class="Symfony\Component\ExpressionLanguage\ExpressionLanguage"/>
     <service id="doctrine.cache_clear_metadata_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand">
       <tag name="console.command" command="doctrine:cache:clear-metadata"/>
       <tag name="container.no_preload"/>
@@ -3713,11 +3728,12 @@
     <service id="sensio_framework_extra.converter.doctrine.orm" class="Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter">
       <tag name="request.param_converter" converter="doctrine.orm"/>
       <argument type="service" id="doctrine" on-invalid="ignore"/>
-      <argument>null</argument>
+      <argument type="service" id="sensio_framework_extra.converter.doctrine.orm.expression_language.default" on-invalid="null"/>
     </service>
     <service id="framework_extra_bundle.date_time_param_converter" class="Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter">
       <tag name="request.param_converter" converter="datetime"/>
     </service>
+    <service id="sensio_framework_extra.converter.doctrine.orm.expression_language.default" class="Symfony\Component\ExpressionLanguage\ExpressionLanguage"/>
     <service id="sensio_framework_extra.view.guesser" class="Sensio\Bundle\FrameworkExtraBundle\Templating\TemplateGuesser">
       <argument type="service" id="kernel"/>
     </service>
@@ -3739,13 +3755,14 @@
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
       <argument type="service" id="framework_extra_bundle.argument_name_convertor"/>
-      <argument>null</argument>
+      <argument type="service" id="sensio_framework_extra.security.expression_language.default" on-invalid="null"/>
       <argument type="service" id="security.authentication.trust_resolver" on-invalid="null"/>
       <argument type="service" id="security.role_hierarchy" on-invalid="null"/>
       <argument type="service" id="security.token_storage" on-invalid="null"/>
       <argument type="service" id="security.authorization_checker" on-invalid="null"/>
       <argument type="service" id="logger" on-invalid="null"/>
     </service>
+    <service id="sensio_framework_extra.security.expression_language.default" class="Sensio\Bundle\FrameworkExtraBundle\Security\ExpressionLanguage"/>
     <service id="framework_extra_bundle.event.is_granted" class="Sensio\Bundle\FrameworkExtraBundle\EventListener\IsGrantedListener">
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
@@ -3795,6 +3812,9 @@
       </call>
       <call method="addExtension">
         <argument type="service" id="twig.extension.debug.stopwatch"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="twig.extension.expression"/>
       </call>
       <call method="addExtension">
         <argument type="service" id="twig.extension.httpkernel"/>
@@ -3938,6 +3958,9 @@
       <argument type="service" id="debug.stopwatch" on-invalid="ignore"/>
       <argument>true</argument>
     </service>
+    <service id="twig.extension.expression" class="Symfony\Bridge\Twig\Extension\ExpressionExtension">
+      <tag name="twig.extension"/>
+    </service>
     <service id="twig.extension.htmlsanitizer" class="Symfony\Bridge\Twig\Extension\HtmlSanitizerExtension">
       <argument type="service" id=".service_locator.Xbsa8iG"/>
     </service>
@@ -4065,6 +4088,9 @@
       <argument>none</argument>
     </service>
     <service id="security.user_checker" class="Symfony\Component\Security\Core\User\InMemoryUserChecker"/>
+    <service id="security.expression_language" class="Symfony\Component\Security\Core\Authorization\ExpressionLanguage">
+      <argument type="service" id="cache.security_expression_language" on-invalid="null"/>
+    </service>
     <service id="security.authentication_utils" class="Symfony\Component\Security\Http\Authentication\AuthenticationUtils">
       <argument type="service" id="request_stack"/>
     </service>
@@ -4077,6 +4103,13 @@
     <service id="security.access.authenticated_voter" class="Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter">
       <tag name="security.voter" priority="250"/>
       <argument type="service" id="security.authentication.trust_resolver"/>
+    </service>
+    <service id="security.access.expression_voter" class="Symfony\Component\Security\Core\Authorization\Voter\ExpressionVoter">
+      <tag name="security.voter" priority="245"/>
+      <argument type="service" id="security.expression_language"/>
+      <argument type="service" id="security.authentication.trust_resolver"/>
+      <argument type="service" id="security.authorization_checker"/>
+      <argument type="service" id="security.role_hierarchy" on-invalid="null"/>
     </service>
     <service id="security.impersonate_url_generator" class="Symfony\Component\Security\Http\Impersonate\ImpersonateUrlGenerator">
       <argument type="service" id="request_stack"/>
@@ -4164,7 +4197,10 @@
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
       <argument type="service" id="security.authorization_checker"/>
-      <argument>null</argument>
+      <argument type="service" id="security.is_granted_attribute_expression_language" on-invalid="null"/>
+    </service>
+    <service id="security.is_granted_attribute_expression_language" class="Symfony\Component\ExpressionLanguage\ExpressionLanguage">
+      <argument type="service" id="cache.security_is_granted_attribute_expression_language" on-invalid="null"/>
     </service>
     <service id="cache.security_is_granted_attribute_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
@@ -6010,6 +6046,10 @@
       <argument type="service" id="security.access.simple_role_voter"/>
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
+    <service id="debug.security.voter.security.access.expression_voter" class="Symfony\Component\Security\Core\Authorization\Voter\TraceableVoter">
+      <argument type="service" id="security.access.expression_voter"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
     <service id="debug.security.voter.EasyCorp\Bundle\EasyAdminBundle\Security\SecurityVoter" class="Symfony\Component\Security\Core\Authorization\Voter\TraceableVoter">
       <argument type="service" id="EasyCorp\Bundle\EasyAdminBundle\Security\SecurityVoter"/>
       <argument type="service" id="debug.event_dispatcher"/>
@@ -6275,6 +6315,13 @@
         <argument key="kernel" type="service_closure" id="kernel"/>
       </argument>
     </service>
+    <service id=".service_locator.Kl0E_Fe" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="env" type="service_closure" id="container.getenv"/>
+        <argument key="service" type="service_closure" id="container.get_routing_condition_service"/>
+      </argument>
+    </service>
     <service id=".service_locator.cXsfP3P" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6332,6 +6379,7 @@
       <argument type="iterator">
         <argument type="service" id="debug.security.voter.security.access.authenticated_voter"/>
         <argument type="service" id="debug.security.voter.security.access.simple_role_voter"/>
+        <argument type="service" id="debug.security.voter.security.access.expression_voter"/>
         <argument type="service" id="debug.security.voter.EasyCorp\Bundle\EasyAdminBundle\Security\SecurityVoter"/>
       </argument>
       <argument type="service">
@@ -6348,7 +6396,7 @@
     </service>
     <service id="debug.doctrine.orm.entity_value_resolver.inner" class="Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver">
       <argument type="service" id="doctrine"/>
-      <argument>null</argument>
+      <argument type="service" id="doctrine.orm.entity_value_resolver.expression_language" on-invalid="ignore"/>
     </service>
     <service id="debug.argument_resolver.backed_enum_resolver.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver"/>
     <service id="debug.argument_resolver.uid.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\UidValueResolver"/>
@@ -7121,6 +7169,8 @@
     <service id="Doctrine\ORM\EntityManagerInterface $defaultEntityManager" alias="doctrine.orm.default_entity_manager"/>
     <service id="doctrine.orm.default_entity_manager.event_manager" alias="doctrine.dbal.default_connection.event_manager"/>
     <service id="doctrine.migrations.metadata_storage" alias="doctrine.migrations.storage.table_storage"/>
+    <service id="sensio_framework_extra.converter.doctrine.orm.expression_language" alias="sensio_framework_extra.converter.doctrine.orm.expression_language.default"/>
+    <service id="sensio_framework_extra.security.expression_language" alias="sensio_framework_extra.security.expression_language.default"/>
     <service id="Twig_Environment" alias="twig"/>
     <service id="Twig\Environment" alias="twig"/>
     <service id="Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface" alias="security.authorization_checker"/>

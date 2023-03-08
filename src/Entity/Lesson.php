@@ -5,17 +5,29 @@ namespace App\Entity;
 use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
+#[Assert\Expression(
+    expression: 'this.checkDuration()',
+    message: 'The lesson must last exactly one hour and a half.',
+)]
 class Lesson implements \JsonSerializable
 {
+    const TYPES = ['Tutorial', 'Practicum', 'Lecture', 'Exam'];
+    const DURATION_HOUR = 1;
+    const DURATION_MINUTE = 30;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Expression(
+        expression: 'this.getStartDateTime() < this.getEndDateTime()',
+        message: 'The start date must be before the end date.',
+    )]
     private ?\DateTimeInterface $startDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -23,7 +35,8 @@ class Lesson implements \JsonSerializable
 
     #[ORM\Column(length: 10)]
     #[Assert\ExpressionSyntax(
-        allowedVariables: ['Tutorial', 'Practicum', 'Lecture'],
+        message: 'The type must be one of the following: "Tutorial", "Practicum", "Lecture", "Exam".',
+        allowedVariables: Lesson::TYPES,
     )]
     private ?string $type = null;
 
@@ -33,6 +46,10 @@ class Lesson implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Expression(
+        expression: 'this.getSubject() in this.getTeacher().getSubjects().toArray()',
+        message: 'The selected subject must be one of the teacher\'s.',
+    )]
     private ?Subject $subject = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
@@ -128,4 +145,18 @@ class Lesson implements \JsonSerializable
             'teacher' => $this->teacher,
         ];
     }
+
+    public function checkDuration() : bool
+    {
+        $dateInterval = $this->endDateTime->diff($this->startDateTime);
+
+        return (
+            $dateInterval->y == 0 &&
+            $dateInterval->m == 0 &&
+            $dateInterval->d == 0 &&
+            $dateInterval->h == Lesson::DURATION_HOUR &&
+            $dateInterval->i == Lesson::DURATION_MINUTE
+        );
+    }
+
 }

@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Subject extends \App\Entity\Subject implements \Doctrine\Persistence\Proxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as __load;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -27,7 +27,7 @@ class Subject extends \App\Entity\Subject implements \Doctrine\Persistence\Proxy
         'reference' => [parent::class, 'reference', null],
         'teachers' => [parent::class, 'teachers', null],
         'title' => [parent::class, 'title', null],
-    ];
+    ];
 
     /**
      * @internal
