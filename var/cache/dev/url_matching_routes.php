@@ -10,8 +10,7 @@ return [
     [ // $staticRoutes
         '/admin' => [[['_route' => 'admin', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], null, null, null, false, false, null]],
         '/api/lesson' => [[['_route' => 'api_lessonget_all_lessons', '_controller' => 'App\\Controller\\Api\\LessonController::list'], null, ['GET' => 0], null, true, false, null]],
-        '/api/lesson/date/day' => [[['_route' => 'api_lessonget_date_day', '_controller' => 'App\\Controller\\Api\\LessonController::date'], null, ['POST' => 0], null, false, false, null]],
-        '/api/lesson/date/week' => [[['_route' => 'api_lessonget_date_week', '_controller' => 'App\\Controller\\Api\\LessonController::date_week'], null, ['POST' => 0], null, false, false, null]],
+        '/api/lesson/date' => [[['_route' => 'api_lessonget_date', '_controller' => 'App\\Controller\\Api\\LessonController::date_week'], null, ['POST' => 0], null, false, false, null]],
         '/api/room' => [[['_route' => 'api_roomget_all_room', '_controller' => 'App\\Controller\\Api\\RoomController::list'], null, ['GET' => 0], null, true, false, null]],
         '/api/teacher' => [[['_route' => 'api_teacher_list', '_controller' => 'App\\Controller\\Api\\TeacherController::list'], null, ['GET' => 0], null, false, false, null]],
         '/teacher' => [[['_route' => 'teacher_list', '_controller' => 'App\\Controller\\TeacherController::list'], null, ['GET' => 0], null, false, false, null]],
