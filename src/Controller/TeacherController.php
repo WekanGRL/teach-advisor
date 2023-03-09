@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Teacher;
 use App\Form\TeacherType;
+use App\Repository\ReviewRepository;
 use App\Repository\TeacherRepository;
 
 use Couchbase\GetAndTouchOptions;
@@ -73,4 +74,21 @@ class TeacherController extends AbstractController
     {
         return $this->render('teacher/calendar.html.twig');
     }
+
+    #[Route('/{id}/reviews', name: 'listReviews', methods: ['GET'])]
+    public function listReviews(Teacher $teacher, ReviewRepository $repository) : Response
+    {
+        $reviews = $repository->findByTeacher($teacher);
+
+        $totalNotes = 0;
+        foreach ($reviews as $review)
+        {
+            $totalNotes += $review->getNote();
+        }
+
+        $noteAverage = $totalNotes / count($reviews);
+        return $this->render('teacher/show.html.twig');
+    }
+
+
 }

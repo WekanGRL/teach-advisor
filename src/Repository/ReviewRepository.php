@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Review;
+use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,15 @@ class ReviewRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByTeacher(Teacher $teacher) : array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.teacher = :teacherId')
+            ->setParameter('teacherId', $teacher)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
