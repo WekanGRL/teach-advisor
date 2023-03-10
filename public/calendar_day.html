@@ -151,7 +151,7 @@
                     class="d-flex justify-content-center align-items-center flex-column text-black"
                     :style="{background:event.color}" style="height: 100%;">
                     <v-title>{{event.title}} ({{event.type}})</v-title>
-                    <span class="text-dark">Salle: {{event.room.id}}</span>
+                    <span class="text-dark">Salle: {{event.room.number}}</span>
                     <span class="text-dark">{{event.teacher.surname}} {{event.teacher.name}}</span>
                 </div>
             </template>
@@ -308,6 +308,7 @@
                             subject: lesson.subject,
                             room: lesson.room,
                             color: htmlClass,
+                            type: lesson.type,
                             content: '',
                             class: htmlClass
                         })

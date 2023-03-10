@@ -24,7 +24,7 @@ class LessonCrudController extends AbstractCrudController
             DateTimeField::new("startDateTime"),
             DateTimeField::new("endDateTime"),
             ChoiceField::new('type')
-                ->setChoices(fn () => ["Tutorial" => 0, "Practicum" => 1,  "Lecture" => 2, "Exam" => 3])
+                ->setChoices(fn () => ["Tutorial" => "Tutorial", "Practicum" => "Practicum",  "Lecture" => "Lecture", "Exam" => "Exam"])
                 ->renderAsNativeWidget(),
             AssociationField::new('room'),
             AssociationField::new('teacher'),

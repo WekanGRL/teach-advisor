@@ -171,12 +171,21 @@ class Lesson implements \JsonSerializable
 
     public function checkStartHour() : bool
     {
+        /*
         // Check before lunch
-        $beforeLunch = $this->startDateTime->format('H') >= 8 && ($this->startDateTime->format('H') <= 11 && $this->startDateTime->format('i') == 0);
+        $beforeLunch =
+            $this->startDateTime->format('H') >= 8
+            &&
+            ($this->startDateTime->format('H') <= 11 && $this->startDateTime->format('i') == 0);
 
         // Check after lunch
-        $afterLunch = $this->startDateTime->format('H') >= 14 && ($this->startDateTime->format('H') <= 17 && $this->startDateTime->format('i') == 0);
+        $afterLunch =
+            $this->startDateTime->format('H') >= 14
+            &&
+            ($this->startDateTime->format('H') <= 17 && $this->startDateTime->format('i') == 0);
 
         return $beforeLunch || $afterLunch;
+        */
+        return true;
     }
 }
