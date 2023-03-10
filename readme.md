@@ -56,6 +56,20 @@ Activer extension=php_intl
   - Pour la classe User :
     - Il ne peut exister qu'un même email à la fois
 
---- informations complémentaire ---
+--- Fonctionnalités supplémentaires ---
+- Ajout d'un système de login avec trois niveaux : prof, étudiant, admin
+- Etudiants peuvent créer leurs comptes
+- Ajout d'un dashboard pour les professeurs (vide pour l'admin)
+- Emploi du temps affichant tous les cours de la semaine (non accessible par le prof)
+- On peut noter les cours du prof en cliquant sur le cours dans l'emploi du temps
 
-Jeux de donnée fournie avec l'architecture de la bdd
+--- informations complémentaires ---
+
+Jeu de données fourni avec l'architecture de la bdd
+Les identifiants des comptes sont:
+- Professeur Ibes MONGABURE : email : ibes.mongabure@gmail.com, mot de passe : ibes
+- Professeur Xavier GODART : email : xgodart@gmail.com, mot de passe : xavier
+- Etudiant : email : etudiant@etud.fr, mot de passe: etud
+- Admin : email: admin, mot de passe: admin
+
+Il n'y a pas de validations sur l'email de l'étudiant lors de l'envoi d'une note au professeur pour vérifier qu'il soit enregistré dans la base.

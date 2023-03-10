@@ -4655,9 +4655,9 @@
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.zgUyz1A"/>
+        <argument type="service" id=".security.request_matcher.vSQOXCt"/>
         <argument type="collection">
-          <argument>ROLE_USER</argument>
+          <argument>ROLE_STUDENT</argument>
         </argument>
         <argument>null</argument>
       </call>
@@ -5255,12 +5255,12 @@
         <argument type="service" id=".security.request_matcher..7Iy5cc"/>
       </argument>
     </service>
-    <service id=".security.request_matcher._LA_AHr" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/</argument>
+    <service id=".security.request_matcher.LDhC5in" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/schedule</argument>
     </service>
-    <service id=".security.request_matcher.zgUyz1A" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.vSQOXCt" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher._LA_AHr"/>
+        <argument type="service" id=".security.request_matcher.LDhC5in"/>
       </argument>
     </service>
     <service id="security.command.user_password_hash" class="Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand">
