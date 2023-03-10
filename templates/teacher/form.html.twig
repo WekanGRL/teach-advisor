@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Teacher Edit {% endblock %}
+{% block title %} {% if create %} Create {% else %} Update {% endif %} Teacher {% endblock %}
 
 {% block body %}
 

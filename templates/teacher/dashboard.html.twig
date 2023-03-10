@@ -1,28 +1,49 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Dashboard {% endblock %}
+
 {% block body %}
-<h1>Teachers</h1>
-<div>
-    <a href={{ path('app_logout') }}> Sign Out </a>
-</div>
-<div>
-    <div>
-        Welcome {{ teacher.name }} {{ teacher.surname }}
-    </div>
+    <h1 style="margin:25px"> Teachers </h1>
     <div class="row">
-        <div class="col-6">
-            <table>
-                {% for review in reviews %}
-                    <tr>
-                        <td> {{ review.note }} </td>
-                        <td> {{ review.comment }} </td>
-                    </tr>
-                {% endfor %}
-            </table>
+        <div class="col-2">
+            <div style="margin:15px">
+                <a href={{ path('teacher_list') }}> Teacher List </a>
+            </div>
         </div>
-        <div class="col-6">
-            Your average note is {{ averageNote }}
+        <div class="col-2">
+            <div style="margin:15px">
+                <a href={{ path('calendar') }}> Schedule </a>
+            </div>
+        </div>
+        <div class="col-2 offset-6">
+            <div style="margin:15px">
+                <a href={{ path('app_logout') }}> Sign Out </a>
+            </div>
         </div>
     </div>
-</div>
+    <div style="margin:15px">
+        <div style="margin-bottom: 15px">
+            Welcome {{ teacher.surname }} {{ teacher.name }}!
+        </div>
+        <div>
+            Your average note is {{ averageNote }} <p style="font-size: small"> (-1 if you do not have any reviews) </p>
+        </div>
+    </div>
+    <div style="margin:15px">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td>Note</td>
+                <td>Comment</td>
+            </tr>
+            </thead>
+            {% for review in reviews %}
+                <tr>
+                    <td> {{ review.note }} </td>
+                    <td> {{ review.comment }} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
 {% endblock %}

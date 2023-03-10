@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeachAdvisorController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function redirection(TeacherRepository $tr): Response
+    public function redirection(): Response
     {
         if( $this->isGranted('ROLE_ADMIN') )
         {
@@ -19,10 +19,8 @@ class TeachAdvisorController extends AbstractController
         }
         else if( $this->isGranted('ROLE_TEACHER') )
         {
-            $teacher = $tr->findOneBy(['email'=> $this->getUser()->getEmail()]);
-            return $this->redirectToRoute('teacher_dashboard', [
-                'id' => $teacher->getId()
-            ]);
+
+            return $this->redirectToRoute('teacher_dashboard');
         }
         return $this->redirectToRoute('calendar');
     }

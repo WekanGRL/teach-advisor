@@ -105,7 +105,7 @@ class TeacherController extends AbstractController
             $totalNotes += $review->getNote();
         }
 
-        $averageNote = $totalNotes == 0 ? "NaN" : $totalNotes / count($reviews);
+        $averageNote = $totalNotes == 0 ? '-1' : $totalNotes / count($reviews);
         return $this->render('teacher/dashboard.html.twig', [
             'teacher'=>$teacher,
             'reviews'=>$reviews,
