@@ -37,7 +37,7 @@ Activer extension=php_intl
   - NotNull / NotBlank en fonction du contexte 
   
   - Pour la classe lesson :
-    - la matière doit faire 1h30
+    - la matière doit faire 1h30 (Non fonctionnel)
     - la matière doit commencer entre 8h et 11h ou 14h et 17h
     - la fin d'un cours et forcément aprés un début
     - le type d'un cour est forcément sois Tutorial / Praticum / Lecture / Exam
@@ -55,3 +55,7 @@ Activer extension=php_intl
     - l'email doit respecter le format email symfony et ne doit pas dépasser 50 caractère
   - Pour la classe User :
     - Il ne peut exister qu'un même email à la fois
+
+--- informations complémentaire ---
+
+Jeux de donnée fournie avec l'architecture de la bdd
