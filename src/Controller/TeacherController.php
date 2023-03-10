@@ -90,10 +90,14 @@ class TeacherController extends AbstractController
         return $this->redirectToRoute('teacher_list');
     }
 
-    #[Route('/{id}/reviews', name: 'dashboard', methods: ['GET'])]
-    public function listReviews(Teacher $teacher, ReviewRepository $repository) : Response
+    #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
+    public function listReviews(ReviewRepository $reviewRepository, TeacherRepository $teacherRepository) : Response
     {
-        $reviews = $repository->findBy(['teacher' => $teacher]);
+        $user = $this->getUser();
+
+        $teacher = $teacherRepository->findOneBy(['email'=>$user->getEmail()]);
+
+        $reviews = $reviewRepository->findBy(['teacher' => $teacher]);
 
         $totalNotes = 0;
         foreach ($reviews as $review)

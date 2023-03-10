@@ -32,7 +32,13 @@ class TeacherRepository extends ServiceEntityRepository
 
     public function remove(Teacher $entity, bool $flush = false): void
     {
+        $userRepository = $this->getEntityManager()->getRepository('App:User');
+
+        $user = $userRepository->findOneBy(['email' => $entity->getEmail()]);
+
         $this->getEntityManager()->remove($entity);
+
+        $userRepository->remove($user, $flush);
 
         if ($flush) {
             $this->getEntityManager()->flush();

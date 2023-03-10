@@ -8,7 +8,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProfAdvisorController extends AbstractController
+class TeachAdvisorController extends AbstractController
 {
     #[Route('/', name: 'home')]
     public function redirection(TeacherRepository $tr): Response

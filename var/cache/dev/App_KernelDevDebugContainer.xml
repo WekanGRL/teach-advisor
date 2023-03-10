@@ -382,18 +382,18 @@
         <argument type="service" id=".service_locator.CshazM0.App\Controller\LoginController"/>
       </call>
     </service>
-    <service id="App\Controller\ProfAdvisorController" class="App\Controller\ProfAdvisorController" public="true" autowire="true" autoconfigure="true">
-      <tag name="controller.service_arguments"/>
-      <tag name="container.service_subscriber"/>
-      <call method="setContainer">
-        <argument type="service" id=".service_locator.CshazM0.App\Controller\ProfAdvisorController"/>
-      </call>
-    </service>
     <service id="App\Controller\RegistrationController" class="App\Controller\RegistrationController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.CshazM0.App\Controller\RegistrationController"/>
+      </call>
+    </service>
+    <service id="App\Controller\TeachAdvisorController" class="App\Controller\TeachAdvisorController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.CshazM0.App\Controller\TeachAdvisorController"/>
       </call>
     </service>
     <service id="App\Controller\TeacherController" class="App\Controller\TeacherController" public="true" autowire="true" autoconfigure="true">
@@ -5682,12 +5682,12 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LoginController" class="App\Controller\LoginController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LoginController" class="App\Controller\LoginController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\LoginController" class="App\Controller\LoginController" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ProfAdvisorController" class="App\Controller\ProfAdvisorController" autowire="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ProfAdvisorController" class="App\Controller\ProfAdvisorController" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Controller\ProfAdvisorController" class="App\Controller\ProfAdvisorController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\TeachAdvisorController" class="App\Controller\TeachAdvisorController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\TeachAdvisorController" class="App\Controller\TeachAdvisorController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\TeachAdvisorController" class="App\Controller\TeachAdvisorController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -6236,17 +6236,17 @@
         <argument key="authenticationUtils" type="service_closure" id="security.authentication_utils"/>
       </argument>
     </service>
-    <service id=".service_locator.p8N96Tz" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="tr" type="service_closure" id="App\Repository\TeacherRepository"/>
-      </argument>
-    </service>
     <service id=".service_locator.e_4zbH4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
+      </argument>
+    </service>
+    <service id=".service_locator.p8N96Tz" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="tr" type="service_closure" id="App\Repository\TeacherRepository"/>
       </argument>
     </service>
     <service id=".service_locator.hYaKo6H" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -6271,14 +6271,14 @@
         <argument key="teacher" type="service_closure" id=".errored..service_locator.LXi7gqJ.App\Entity\Teacher"/>
       </argument>
     </service>
-    <service id=".service_locator.pyrtCGH" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator._EDEGV3" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="repository" type="service_closure" id="App\Repository\ReviewRepository"/>
-        <argument key="teacher" type="service_closure" id=".errored..service_locator.pyrtCGH.App\Entity\Teacher"/>
+        <argument key="reviewRepository" type="service_closure" id="App\Repository\ReviewRepository"/>
+        <argument key="teacherRepository" type="service_closure" id="App\Repository\TeacherRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.3AS.Tq6" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.dpnZxPF" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\Admin\DashboardController::configureUserMenu" type="service_closure" id=".service_locator.t7nLwyX"/>
@@ -6387,7 +6387,6 @@
         <argument key="App\Controller\Admin\TeacherCrudController::persistEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Admin\TeacherCrudController::renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\TeacherCrudController::updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\Api\LessonController::date" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController::date_week" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController::list" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\ReviewController::delete" type="service_closure" id=".service_locator.jADULHE"/>
@@ -6396,12 +6395,12 @@
         <argument key="App\Controller\Api\TeacherController::addReviews" type="service_closure" id=".service_locator.D9pHme0"/>
         <argument key="App\Controller\Api\TeacherController::list" type="service_closure" id=".service_locator.UisV4Oq"/>
         <argument key="App\Controller\LoginController::index" type="service_closure" id=".service_locator.rSTd.nA"/>
-        <argument key="App\Controller\ProfAdvisorController::redirection" type="service_closure" id=".service_locator.p8N96Tz"/>
         <argument key="App\Controller\RegistrationController::register" type="service_closure" id=".service_locator.e_4zbH4"/>
+        <argument key="App\Controller\TeachAdvisorController::redirection" type="service_closure" id=".service_locator.p8N96Tz"/>
         <argument key="App\Controller\TeacherController::create" type="service_closure" id=".service_locator.hYaKo6H"/>
         <argument key="App\Controller\TeacherController::delete" type="service_closure" id=".service_locator.LXi7gqJ"/>
         <argument key="App\Controller\TeacherController::list" type="service_closure" id=".service_locator.UisV4Oq"/>
-        <argument key="App\Controller\TeacherController::listReviews" type="service_closure" id=".service_locator.pyrtCGH"/>
+        <argument key="App\Controller\TeacherController::listReviews" type="service_closure" id=".service_locator._EDEGV3"/>
         <argument key="App\Controller\TeacherController::update" type="service_closure" id=".service_locator.Neh1C8r"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -6513,7 +6512,6 @@
         <argument key="App\Controller\Admin\TeacherCrudController:persistEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Admin\TeacherCrudController:renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\TeacherCrudController:updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\Api\LessonController:date" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController:date_week" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\LessonController:list" type="service_closure" id=".service_locator.Ovs.GCW"/>
         <argument key="App\Controller\Api\ReviewController:delete" type="service_closure" id=".service_locator.jADULHE"/>
@@ -6522,12 +6520,12 @@
         <argument key="App\Controller\Api\TeacherController:addReviews" type="service_closure" id=".service_locator.D9pHme0"/>
         <argument key="App\Controller\Api\TeacherController:list" type="service_closure" id=".service_locator.UisV4Oq"/>
         <argument key="App\Controller\LoginController:index" type="service_closure" id=".service_locator.rSTd.nA"/>
-        <argument key="App\Controller\ProfAdvisorController:redirection" type="service_closure" id=".service_locator.p8N96Tz"/>
         <argument key="App\Controller\RegistrationController:register" type="service_closure" id=".service_locator.e_4zbH4"/>
+        <argument key="App\Controller\TeachAdvisorController:redirection" type="service_closure" id=".service_locator.p8N96Tz"/>
         <argument key="App\Controller\TeacherController:create" type="service_closure" id=".service_locator.hYaKo6H"/>
         <argument key="App\Controller\TeacherController:delete" type="service_closure" id=".service_locator.LXi7gqJ"/>
         <argument key="App\Controller\TeacherController:list" type="service_closure" id=".service_locator.UisV4Oq"/>
-        <argument key="App\Controller\TeacherController:listReviews" type="service_closure" id=".service_locator.pyrtCGH"/>
+        <argument key="App\Controller\TeacherController:listReviews" type="service_closure" id=".service_locator._EDEGV3"/>
         <argument key="App\Controller\TeacherController:update" type="service_closure" id=".service_locator.Neh1C8r"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -6864,15 +6862,15 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.CshazM0" method="withContext"/>
     </service>
-    <service id=".service_locator.CshazM0.App\Controller\ProfAdvisorController" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator_context" id="App\Controller\ProfAdvisorController"/>
-      <argument>App\Controller\ProfAdvisorController</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.CshazM0" method="withContext"/>
-    </service>
     <service id=".service_locator.CshazM0.App\Controller\RegistrationController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\RegistrationController"/>
       <argument>App\Controller\RegistrationController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.CshazM0" method="withContext"/>
+    </service>
+    <service id=".service_locator.CshazM0.App\Controller\TeachAdvisorController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\TeachAdvisorController"/>
+      <argument>App\Controller\TeachAdvisorController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.CshazM0" method="withContext"/>
     </service>
@@ -7072,12 +7070,12 @@
       <argument type="service" id="EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.3AS.Tq6"/>
+      <argument type="service" id=".service_locator.dpnZxPF"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.3AS.Tq6"/>
+      <argument type="service" id=".service_locator.dpnZxPF"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -7104,7 +7102,6 @@
     <service id=".errored..service_locator.vMUOjiq.EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore" class="EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore"/>
     <service id=".errored..service_locator.Neh1C8r.App\Entity\Teacher" class="App\Entity\Teacher"/>
     <service id=".errored..service_locator.LXi7gqJ.App\Entity\Teacher" class="App\Entity\Teacher"/>
-    <service id=".errored..service_locator.pyrtCGH.App\Entity\Teacher" class="App\Entity\Teacher"/>
     <service id=".console.command.about.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>about</argument>
       <argument type="collection"/>
@@ -7937,7 +7934,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Menu\MenuItemMatcherInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Menu\MenuItemMatcher"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.3AS.Tq6"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.dpnZxPF"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -7952,8 +7949,7 @@
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.ToXOnSp" alias=".service_locator.hYaKo6H"/>
     <service id=".service_locator.Zud6lrW" alias=".service_locator.Neh1C8r"/>
-    <service id=".service_locator.tnv2Qud" alias=".service_locator.pyrtCGH"/>
-    <service id=".service_locator.GQ_0_AQ" alias=".service_locator.3AS.Tq6"/>
+    <service id=".service_locator.BEbRvYF" alias=".service_locator.dpnZxPF"/>
     <service id=".service_locator.9XMoc9I" alias=".service_locator.kzegaci"/>
     <service id=".service_locator.7OPWZKl" alias=".service_locator.IFupFuR"/>
     <service id=".service_locator.qBCHs1a" alias=".service_locator.QXcJQkF"/>
@@ -8004,12 +8000,12 @@
     <service id=".service_locator.bySaNSy" alias=".service_locator.UisV4Oq"/>
     <service id=".service_locator.fRTRm4b" alias=".service_locator.D9pHme0"/>
     <service id=".service_locator.7NIAq8D" alias=".service_locator.rSTd.nA"/>
-    <service id=".service_locator.VtbLMAY" alias=".service_locator.p8N96Tz"/>
     <service id=".service_locator.qnm_CJ1" alias=".service_locator.e_4zbH4"/>
+    <service id=".service_locator.VtbLMAY" alias=".service_locator.p8N96Tz"/>
     <service id=".service_locator.xmvxOS7" alias=".service_locator.hYaKo6H"/>
     <service id=".service_locator.iOFOZhl" alias=".service_locator.Neh1C8r"/>
     <service id=".service_locator.QKqPRZZ" alias=".service_locator.LXi7gqJ"/>
-    <service id=".service_locator.xlG0ix4" alias=".service_locator.pyrtCGH"/>
+    <service id=".service_locator.Da22Mze" alias=".service_locator._EDEGV3"/>
     <service id=".service_locator.M.Zzl8u" alias=".service_locator.gpD2sMy"/>
     <service id=".service_locator.qxuohsV" alias=".service_locator.5eP_qL9"/>
     <service id=".service_locator.e4zRSya" alias=".service_locator.CshazM0"/>

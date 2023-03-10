@@ -16,17 +16,17 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/admin' => [[['_route' => 'admin', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], null, null, null, false, false, null]],
         '/api/lesson' => [[['_route' => 'api_lessonget_all_lessons', '_controller' => 'App\\Controller\\Api\\LessonController::list'], null, ['GET' => 0], null, true, false, null]],
-        '/api/lesson/date/day' => [[['_route' => 'api_lessonget_date_day', '_controller' => 'App\\Controller\\Api\\LessonController::date'], null, ['POST' => 0], null, false, false, null]],
-        '/api/lesson/date/week' => [[['_route' => 'api_lessonget_date_week', '_controller' => 'App\\Controller\\Api\\LessonController::date_week'], null, ['POST' => 0], null, false, false, null]],
+        '/api/lesson/date' => [[['_route' => 'api_lessonget_date', '_controller' => 'App\\Controller\\Api\\LessonController::date_week'], null, ['POST' => 0], null, false, false, null]],
         '/api/room' => [[['_route' => 'api_roomget_all_room', '_controller' => 'App\\Controller\\Api\\RoomController::list'], null, ['GET' => 0], null, true, false, null]],
         '/api/teacher' => [[['_route' => 'api_teacher_list', '_controller' => 'App\\Controller\\Api\\TeacherController::list'], null, ['GET' => 0], null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, ['GET' => 0], null, false, false, null]],
-        '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\ProfAdvisorController::redirection'], null, null, null, false, false, null]],
-        '/schedule' => [[['_route' => 'calendar', '_controller' => 'App\\Controller\\ProfAdvisorController::index'], null, ['GET' => 0], null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
+        '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\TeachAdvisorController::redirection'], null, null, null, false, false, null]],
+        '/schedule' => [[['_route' => 'calendar', '_controller' => 'App\\Controller\\TeachAdvisorController::index'], null, ['GET' => 0], null, false, false, null]],
         '/teacher' => [[['_route' => 'teacher_list', '_controller' => 'App\\Controller\\TeacherController::list'], null, ['GET' => 0], null, false, false, null]],
         '/teacher/create' => [[['_route' => 'teacher_create', '_controller' => 'App\\Controller\\TeacherController::create'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/teacher/dashboard' => [[['_route' => 'teacher_dashboard', '_controller' => 'App\\Controller\\TeacherController::listReviews'], null, ['GET' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -59,7 +59,6 @@ return [
                 .'|/teacher/([^/]++)/(?'
                     .'|update(*:280)'
                     .'|delete(*:294)'
-                    .'|reviews(*:309)'
                 .')'
             .')/?$}sDu',
     ],
@@ -81,9 +80,8 @@ return [
             [['_route' => 'api_teacher_addReviews', '_controller' => 'App\\Controller\\Api\\TeacherController::addReviews'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null],
         ],
         280 => [[['_route' => 'teacher_update', '_controller' => 'App\\Controller\\TeacherController::update'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        294 => [[['_route' => 'teacher_delete', '_controller' => 'App\\Controller\\TeacherController::delete'], ['id'], ['GET' => 0], null, false, false, null]],
-        309 => [
-            [['_route' => 'teacher_dashboard', '_controller' => 'App\\Controller\\TeacherController::listReviews'], ['id'], ['GET' => 0], null, false, false, null],
+        294 => [
+            [['_route' => 'teacher_delete', '_controller' => 'App\\Controller\\TeacherController::delete'], ['id'], ['GET' => 0], null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

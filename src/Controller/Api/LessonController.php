@@ -21,25 +21,14 @@ class LessonController extends AbstractController
         return $this->json($lessons, Response::HTTP_OK);
     }
 
-    #[Route('/date/day', name: 'get_date_day', methods: ['POST'])]
-    public function date(LessonRepository $repository, Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-        $date = new \DateTime($data['date']);
-        
-        $lessons = $repository->getByDate($date);
-        
-        return $this->json($lessons, Response::HTTP_OK);
-    }
-
-    #[Route('/date/week', name: 'get_date_week', methods: ['POST'])]
+    #[Route('/date', name: 'get_date', methods: ['POST'])]
     public function date_week(LessonRepository $repository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $startDate = new \DateTime($data['startDate']);
         $endDate = new \DateTime($data['endDate']);
 
-        $lessons = $repository->getByWeek($startDate,$endDate);
+        $lessons = $repository->getByTimeInterval($startDate,$endDate);
         
         return $this->json($lessons, Response::HTTP_OK);
     }
