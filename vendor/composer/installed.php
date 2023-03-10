@@ -754,6 +754,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/web-profiler-bundle' => array(
+            'pretty_version' => 'v6.2.7',
+            'version' => '6.2.7.0',
+            'reference' => '0d183e0a69652e348007e97ffff8d3ded9cc6d2d',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.2.5',
             'version' => '6.2.5.0',

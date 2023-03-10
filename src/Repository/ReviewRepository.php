@@ -40,14 +40,6 @@ class ReviewRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByTeacher(Teacher $teacher) : array
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.teacher = :teacherId')
-            ->setParameter('teacherId', $teacher)
-            ->getQuery()
-            ->getResult();
-    }
 
 //    /**
 //     * @return Review[] Returns an array of Review objects

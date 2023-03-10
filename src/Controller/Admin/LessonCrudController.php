@@ -23,13 +23,12 @@ class LessonCrudController extends AbstractCrudController
         return [
             DateTimeField::new("startDateTime"),
             DateTimeField::new("endDateTime"),
-            /*ChoiceField::new('type')
-                ->setChoices(fn () => ["Tutorial" => 0, "Practicum" => 1,  "Lecture" => 2])
-                ->renderAsNativeWidget(),*/
-            'type',
+            ChoiceField::new('type')
+                ->setChoices(fn () => ["Tutorial" => 0, "Practicum" => 1,  "Lecture" => 2, "Exam" => 3])
+                ->renderAsNativeWidget(),
             AssociationField::new('room'),
-            $t = AssociationField::new('teacher'),
-            $s = AssociationField::new('subject'),
+            AssociationField::new('teacher'),
+            AssociationField::new('subject'),
         ];
     }
 }

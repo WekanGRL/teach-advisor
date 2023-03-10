@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 use App\Entity\Teacher;
+use App\Entity\User;
 use App\Form\TeacherType;
 use App\Repository\ReviewRepository;
 use App\Repository\TeacherRepository;
 
+use App\Repository\UserRepository;
 use Couchbase\GetAndTouchOptions;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/teacher', name:'teacher_')]
@@ -25,7 +29,7 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
-    public function create(Request $request, TeacherRepository $repository) : Response
+    public function create(Request $request, TeacherRepository $repository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager) : Response
     {
         $teacher = new Teacher();
 
@@ -35,30 +39,47 @@ class TeacherController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $teacher = $form->getData();
+
+            // Create a new user linked to the teacher
+            $user = new User();
+            $user->setEmail($teacher->getEmail());
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setRoles(['ROLE_TEACHER']);
+            $entityManager->persist($user);
+            $entityManager->flush();
+
             $repository->save($teacher, true);
             return $this->redirectToRoute('teacher_list');
         }
 
         return $this->render('teacher/form.html.twig', [
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'create'=>true
         ]);
     }
 
     #[Route('/{id}/update', name: 'update', methods: ['GET', 'POST'])]
-    public function update(Request $request, TeacherRepository $repository, Teacher $teacher) : Response
+    public function update(Request $request, TeacherRepository $tr, Teacher $teacher) : Response
     {
-        $form = $this->createForm(TeacherType::class, $teacher);
+        $form = $this->createForm(TeacherType::class, $teacher)->remove('plainPassword');
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             $teacher = $form->getData();
-            $repository->save($teacher, true);
+
+            $tr->save($teacher, true);
             return $this->redirectToRoute('teacher_list');
         }
 
         return $this->render('teacher/form.html.twig', [
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'create'=>false
         ]);
     }
 
@@ -69,16 +90,10 @@ class TeacherController extends AbstractController
         return $this->redirectToRoute('teacher_list');
     }
 
-    #[Route('/calendar/day', name: 'show_calendar', methods: ['GET'])]
-    public function showCalendar() : Response
-    {
-        return $this->render('teacher/calendar.html.twig');
-    }
-
-    #[Route('/{id}/reviews', name: 'listReviews', methods: ['GET'])]
+    #[Route('/{id}/reviews', name: 'dashboard', methods: ['GET'])]
     public function listReviews(Teacher $teacher, ReviewRepository $repository) : Response
     {
-        $reviews = $repository->findByTeacher($teacher);
+        $reviews = $repository->findBy(['teacher' => $teacher]);
 
         $totalNotes = 0;
         foreach ($reviews as $review)
@@ -86,8 +101,12 @@ class TeacherController extends AbstractController
             $totalNotes += $review->getNote();
         }
 
-        $noteAverage = $totalNotes / count($reviews);
-        return $this->render('teacher/show.html.twig');
+        $averageNote = $totalNotes == 0 ? "NaN" : $totalNotes / count($reviews);
+        return $this->render('teacher/dashboard.html.twig', [
+            'teacher'=>$teacher,
+            'reviews'=>$reviews,
+            'averageNote'=>$averageNote
+        ]);
     }
 
 

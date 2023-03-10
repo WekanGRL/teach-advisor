@@ -1,5 +1,66 @@
-{{ form_start(form) }}
+{% extends 'base.html.twig' %}
 
-{{ form_end(form) }}
+{% block title %} Teacher Edit {% endblock %}
 
-<a href={{ path('teacher_list') }}> CANCEL </a>
+{% block body %}
+
+    <h1 style="margin:25px"> {% if create %} Create {% else %} Update {% endif %} Teacher </h1>
+
+    {{ form_start(form) }}
+
+    <div style="margin:15px">
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.name) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.name) }}
+                    {{ form_errors(form.name) }}
+                </div>
+            </div>
+        </div>
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.surname) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.surname) }}
+                    {{ form_errors(form.surname) }}
+                </div>
+            </div>
+        </div>
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.email) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                </div>
+            </div>
+        </div>
+        {% if create %}
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    <p> Password </p>
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.plainPassword) }}
+                    {{ form_errors(form.plainPassword) }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <button type="submit" style="margin:15px" class="btn btn-primary">Save</button>
+    </div>
+    {{ form_end(form) }}
+
+    <div style="margin:15px">
+        <a href="{{ path('teacher_list') }}">CANCEL</a>
+    </div>
+
+{% endblock %}

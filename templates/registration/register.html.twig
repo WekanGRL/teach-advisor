@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+
+    <h1 style="margin:25px"> Sign Up </h1>
+
+    {{ form_start(registrationForm) }}
+
+    <div style="margin:15px">
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(registrationForm.email) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+        </div>
+        <div style="margin:15px; text-align: left;">
+            <div class="row">
+                <div class="col-md-2">
+                    <p> Password </p>
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(registrationForm.plainPassword) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" style="margin:15px" class="btn btn-primary">Register</button>
+    </div>
+    {{ form_end(registrationForm) }}
+
+    <div style="margin:15px">
+        Already Signed Up? <a href="{{ path('app_login') }}">Login</a>
+    </div>
+{% endblock %}

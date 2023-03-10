@@ -1,18 +1,35 @@
-<h1>Teachers</h1>
-<div class="addTeacher">
-    <a href={{ path('teacher_create') }}> Add a new teacher </a>
-</div>
-<div class="teachers">
-    <table>
-        {% for teacher in teachers %}
+{% extends 'base.html.twig' %}
+
+{% block title %} Teachers {% endblock %}
+
+{% block body %}
+    <h1 style="margin:25px"> Teachers </h1>
+    <div style="margin:15px">
+        <a href={{ path('teacher_create') }}> Add a new teacher </a>
+    </div>
+
+    <table class="table table-hover">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Surname</td>
+        <td>Email</td>
+        <td></td>
+        <td></td>
+    </tr>
+    </thead>
+    {% for teacher in teachers %}
+        <tbody>
             <tr>
                 <td> {{ teacher.id }} </td>
                 <td> {{ teacher.name }} </td>
                 <td> {{ teacher.surname }} </td>
                 <td> {{ teacher.email }} </td>
-                <td> <a href={{ path('teacher_update', {id: teacher.id}) }}>Edit</a> </td>
-                <td> <a href={{ path('teacher_delete', {id: teacher.id}) }}>Remove</a> </td>
+                <td> <a style="text-align: center" href={{ path('teacher_update', {id: teacher.id}) }}> Edit </a> </td>
+                <td> <a style="text-align: center" href={{ path('teacher_delete', {id: teacher.id}) }}> Remove </a> </td>
             </tr>
         {% endfor %}
     </table>
-</div>
+
+{% endblock %}

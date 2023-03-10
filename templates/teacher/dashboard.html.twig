@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Teachers</h1>
+<div>
+    <a href={{ path('app_logout') }}> Sign Out </a>
+</div>
+<div>
+    <div>
+        Welcome {{ teacher.name }} {{ teacher.surname }}
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <table>
+                {% for review in reviews %}
+                    <tr>
+                        <td> {{ review.note }} </td>
+                        <td> {{ review.comment }} </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-6">
+            Your average note is {{ averageNote }}
+        </div>
+    </div>
+</div>
+{% endblock %}

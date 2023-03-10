@@ -7,6 +7,7 @@ use App\Entity\Review;
 use App\Entity\Subject;
 use App\Entity\Lesson;
 use App\Entity\Room;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -36,7 +37,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Prof Advisor');
+            ->setTitle('Teach Advisor');
     }
 
     public function configureMenuItems(): iterable

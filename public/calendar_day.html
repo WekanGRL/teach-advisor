@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <style>
-    .container {
-        height: "100px";
-    }
-
     .vuecal__cell-events {
         display: flex !important;
         justify-content: center !important;
@@ -88,7 +84,8 @@
         justify-content: center !important;
         align-items: center;
     }
-    .btnSuivant{
+
+    .btnSuivant {
         background-color: #f6984c;
         color: white;
         border: none;
@@ -97,6 +94,34 @@
         margin: 5px;
     }
 
+    .modal-test {
+        display: block;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        height: 65%;
+    }
+    .review{
+        overflow-y: scroll;
+        height: 80%;
+    }
+    .row{
+        height: 100%;
+    }
 </style>
 
 <head>
@@ -110,133 +135,273 @@
 </head>
 
 <body>
-    <div id="app" class="container">
-            <br />
+    <div id="app" class="">
+        <br />
+
+        <a style="margin:15px" href="./logout"> Logout</a>
 
 
-        <vue-cal class="vuecal--blue-theme" :time-from="8 * 60" :time-to="18 * 60 + 30" :time-step="30"
-            :disable-views="['years', 'year', 'month']" hide-weekends :events="events" cell-contextmenu
-            ref="vuecal"
-            v-model:active-view="activeView"
-            v-model:selected-date="selectedDate"
+        <vue-cal class="vuecal--blue-theme" :time-from="8 * 60" :time-to="17 * 60 + 30" :time-step="30"
+            :disable-views="['years', 'year', 'month']" :events="events" cell-contextmenu ref="vuecal"
+            @view-change="viewChange($event)">
 
-            
+            <template #event="{ event }">
+                <div @click="showModalDialog(event.teacher,event.subject)"
+                    class="d-flex justify-content-center align-items-center flex-column text-black"
+                    :style="{background:event.color}" style="height: 100%;">
+                    <v-title>{{event.title}} ({{event.type}})</v-title>
+                    <span class="text-dark">Salle: {{event.room.id}}</span>
+                    <span class="text-dark">{{event.teacher.surname}} {{event.teacher.name}}</span>
+                </div>
+            </template>
+        </vue-cal>
 
-            @view-change="viewChange($event)" 
-            @cell-click="logChange('cell-click', $event)"
+        <div id="myModal" v-if="showModal">
 
-            @cell-dblclick="logChange('cell-dblclick', $event)"
+            <!-- Modal content -->
+            <div class="modal-test">
+                <div class="content">
+                    <button class="btnSuivant" style="float: right;"  @click="showModal=false">X</button>
+                    <div class="row">
+                        <div class="col-8">
+                            <h1>Review your teacher!</h1>
+                            <div v-if="currentTeacher" class="">
+                                <h3>Review concerning {{ currentTeacher.surname + ' ' + currentTeacher.name }}</h3>
 
-            @cell-contextmenu="logChange('cell-contextmenu', $event)"
-            >
+                                <form v-on:submit.prevent="postReview()" class="mb-5">
+                                    <div class="form-group">
+                                        <label>Note</label>
+                                        <select class="form-control" v-model="newReview.note">
+                                            <option>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
 
-            
-    </div>
+                                    <div class="form-group">
+                                        <label>Comment</label>
+                                        <textarea class="form-control" v-model="newReview.comment" required></textarea>
+                                    </div>
 
-    <script type="text/javascript">
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" class="form-control" v-model="newReview.studentEmail"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary" value="Add a review">
+                                    </div>
+                                </form>
+
+                                <ul class="text-danger">
+                                    <li v-for="error in errors">{{ error }}</li>
+                                </ul>
+                            </div>
+                            </div>
+                                <div class="col-4 review">
+                                    <div class="card mt-1" v-for="review in reviews">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Note: {{ review.note }} / 5</h5>
+                                            <p class="card-text">
+                                                <i>Comment by {{ review.studentEmail }}</i>
+                                                <br />
+                                                {{ review.comment }}
+                                                <br />
+
+                                                <button v-if="myReviews.includes(review)"
+                                                    v-on:click="deleteReview(review)"
+                                                    class="btn btn-danger mt-5">Delete</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
+        </div>
 
-        Vue.createApp({
-            components: { VueCal: vuecal },
-            el: '#app',
-            activeView: 'week',
-            today: null,
-            midBreakStart: null,
-            selectedDate: null,
-            data: () => ({
-                events: [],
-                lessons: [],
-                color: [
-                ],
-                i: 0,
-            }),
-            methods: {
-                getLessonsByDay: function (date) {
-                    this.erros = [];
-                    
-                    axios.post("http://localhost:8000/api/lesson/date/day", { date: date })
-                        .then(response => {
-                            this.lessons = response.data;
-                            this.lessons.forEach((lesson) => this.addToTab(lesson));
-                        })
-                        .catch(error => {
-                            console.log(error)
-                        })
-                },
+        <script type="text/javascript">
+            Vue.createApp({
+                components: { VueCal: vuecal },
+                el: '#app',
+                activeView: 'week',
+                today: null,
+                midBreakStart: null,
+                selectedDate: null,
+                data: () => ({
+                    tempObject: [],
+                    colors: [
+                        'lightblue',
+                        'lightsteelblue',
+                        'lightgoldenrodyellow',
+                        'lightslategray',
+                        'lightcoral',
+                        'lightgreen',
+                        'lightseagreen',
+                        'lightyellow',
+                        'lightpink',
+                        'lightskyblue',
+                    ],
+                    events: [],
+                    lessons: [
+                    ],
+                    color: [
+                    ],
+                    i: 0,
+                    showModal: false,
 
-                getLessonsByWeek: function(startDate, endDate){
-                    this.erros = [];
-                    
-                    axios.post("http://localhost:8000/api/lesson/date/week", { startDate: startDate, endDate: endDate }) 
-                        .then(response => {
-                            this.lessons = response.data;
-                            this.lessons.forEach((lesson) => this.addToTab(lesson));
-                        })
-                        .catch(error => {
-                            console.log(error)
-                        })
-                },
-                
-                addToTab: function (lesson) {
-                    var htmlClass = null;
-                    if (!this.color.find((color) => color.id == lesson.subject.id)) {
-                        this.i++
-                        htmlClass = 'subject-' + this.i;
+                    apiBase: 'http://localhost:8000/api',
+                    teachers: [],
+                    currentTeacher: null,
+                    currentSubject: null,
+                    reviews: [],
+                    newReview: {},
+                    errors: [],
+                    myReviews: []
+                }),
+                methods: {
+                    getLessons: function (startDate, endDate) {
+                        this.erros = [];
 
-                        this.color.push({
-                            id: lesson.subject.id,
+                        axios.post(this.apiBase + "/lesson/date", { startDate: startDate, endDate: endDate })
+                            .then(response => {
+                                this.lessons = response.data;
+                                console.log(this.lessons)
+                                this.lessons.forEach((lesson) => this.addToTab(lesson));
+                                console.log(this.events)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    },
+
+                    addToTab: function (lesson) {
+                        var htmlClass = null;
+                        if (!this.color.find((color) => color.id == lesson.subject.id)) {
+                            this.i++
+                            htmlClass = this.colors[this.i];
+
+                            this.color.push({
+                                id: lesson.subject.id,
+                                class: htmlClass
+                            })
+
+                        } else {
+                            htmlClass = this.color.find((color) => color.id == lesson.subject.id).class;
+                        }
+                        //this.affichage(htmlClass, this.i, this.color)
+
+                        this.events.push({
+                            start: lesson.startDateTime.date,
+                            end: lesson.endDateTime.date,
+                            title: lesson.subject.title,
+                            teacher: lesson.teacher,
+                            subject: lesson.subject,
+                            room: lesson.room,
+                            color: htmlClass,
+                            content: '',
                             class: htmlClass
                         })
+                    },
 
-                    } else {
-                        htmlClass = this.color.find((color) => color.id == lesson.subject.id).class;
+                    affichage: function (htmlclass, i, color) {
+                        console.log('htmlclass :' + htmlclass);
+                        console.log('color :' + this.color);
+                        console.log('i : ' + this.i);
+                    },
+
+                    logChange: function (view, event) {
+                        console.log(event);
+                    },
+                    switchView(jour, date) {
+                        console.log('switchView')
+                    },
+
+                    viewChange: function (event) {
+                        this.events = [];
+                        this.getLessons(new Date(event['startDate']), new Date(event['endDate']));
+                    },
+
+                    createReview: function () {
+                        return {
+                            note: 0,
+                            comment: '',
+                            studentEmail: ''
+                        }
+                    },
+
+                    getReviews: function (teacher) {
+                        this.newReview = this.createReview()
+                        this.errors = []
+
+                        axios.get(this.apiBase + '/teacher/' + teacher.id + '/reviews')
+                            .then(response => {
+                                this.reviews = response.data
+                                this.currentTeacher = teacher
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    },
+
+                    postReview: function () {
+                        this.errors = []
+
+                        axios.post(this.apiBase + '/teacher/' + this.currentTeacher.id + '/reviews', this.newReview)
+                            .then(response => {
+                                this.reviews.push(response.data)
+                                this.newReview = this.createReview()
+                                this.myReviews.push(response.data)
+                            })
+                            .catch(error => {
+                                this.errors = Object.values(error.response.data)
+                            })
+                    },
+
+                    deleteReview: function (review) {
+                        axios.delete(this.apiBase + '/review/' + review.id)
+                            .then(response => {
+                                this.reviews.splice(this.reviews.indexOf(review), 1)
+                                this.myReviews.splice(this.myReviews.indexOf(review), 1)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    },
+                    showModalDialog: function (teacher, subject) {
+                        this.showModal = true;
+                        this.getReviews(teacher);
+                        this.currentTeacher = teacher;
+                        this.currentSubject = subject;
+                    },
+                },
+                mounted() {
+                    //lance l'api une premiere fois
+                    var curr = new Date; // get current date
+                    var first = curr.getDate() - curr.getDay() + 1; // +1 because first day is monday
+                    console.log(curr.getDate() + " - " + curr.getDay())
+                    var last = first + 4; // +4 because last day is friday
+
+                    var firstday = new Date(curr.setDate(first)).toUTCString();
+                    var lastday = new Date(curr.setDate(last)).toUTCString();
+
+                    var tabOnLoadTemp = {
+                        endDate: lastday,
+                        events: [],
+                        startDate: firstday,
+                        view: 'week',
                     }
-                    //this.affichage(htmlClass, this.i, this.color)
-
-                    this.events.push({
-                        start: lesson.startDateTime.date,
-                        end: lesson.endDateTime.date,
-                        title: lesson.subject.title + ' ' + lesson.teacher.name + ' ' + lesson.room.number,
-                        content: '',
-                        class: htmlClass
-                    })
-                },
-
-                affichage: function (htmlclass, i, color) {
-                    console.log('htmlclass :' + htmlclass);
-                    console.log('color :' + this.color);
-                    console.log('i : ' + this.i);
-                },
-
-                logChange: function (view, event) {
-                    console.log(event);
-                },
-                switchView(jour, date) {
-                    console.log('switchView')
-                },
-
-                viewChange: function (event) {
-                    this.events = [];
-
-                    var view = event['view'];
-                    // var time = new Date().getTime();
-                    // var date = new Date(time);
-                    var date = new Date(event['startDate'])
-                    date.setHours(9)
-                    
-                    console.log(event)
-                    switch (view) {
-                        case 'day':
-                            this.getLessonsByDay(date);
-                            break;
-                        case 'week':
-                            this.getLessonsByWeek(new Date(event['startDate']), new Date(event['endDate']));
-                            break;
-                    }
+                    console.log(tabOnLoadTemp)
+                    this.viewChange(tabOnLoadTemp);
                 }
-
-            },
-        }).mount('#app')
-    </script>
+            }).mount('#app')
+        </script>
 </body>

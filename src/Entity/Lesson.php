@@ -25,6 +25,10 @@ class Lesson implements \JsonSerializable
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank]
+    #[Assert\Expression(
+        expression: 'this.checkStartHour()',
+        message: 'Lesson must start between 8 and 11 AM or between 2 and 5 PM.',
+    )]
     private ?\DateTimeInterface $startDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -165,4 +169,14 @@ class Lesson implements \JsonSerializable
         );
     }
 
+    public function checkStartHour() : bool
+    {
+        // Check before lunch
+        $beforeLunch = $this->startDateTime->format('H') >= 8 && ($this->startDateTime->format('H') <= 11 && $this->startDateTime->format('i') == 0);
+
+        // Check after lunch
+        $afterLunch = $this->startDateTime->format('H') >= 14 && ($this->startDateTime->format('H') <= 17 && $this->startDateTime->format('i') == 0);
+
+        return $beforeLunch || $afterLunch;
+    }
 }

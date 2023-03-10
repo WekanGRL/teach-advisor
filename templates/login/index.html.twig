@@ -1,0 +1,45 @@
+{# templates/login/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# ... #}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <h1 style="margin:25px"> Sign In </h1>
+
+    <form action="{{ path('app_login') }}" method="post" style="margin:15px">
+
+        <div style="margin:15px">
+            <div style="margin:15px; text-align: left;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="username" style="text-align: left">Email:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="username" name="_username" value="{{ last_username }}">
+                    </div>
+                </div>
+            </div>
+            <div style="margin:15px; text-align: left;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="password">Password:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="password" id="password" name="_password">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" style="margin:15px" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+
+    <div style="margin:15px">
+        Already Signed Up? <a href=" {{ path('app_register') }} " style="margin : 15px">Register</a>
+    </div>
+
+
+{% endblock %}
